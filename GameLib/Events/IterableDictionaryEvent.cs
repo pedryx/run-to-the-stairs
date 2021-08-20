@@ -6,7 +6,7 @@
     /// </summary>
     /// <param name="sender">Event sender.</param>
     /// <param name="e">Event arguments.</param>
-    public delegate void KeyValuePairEvent<TKey, TValue(object sender,
+    public delegate void KeyValuePairEvent<TKey, TValue>(object sender,
         KeyValuePairEventArgs<TKey, TValue> e);
 
     /// <summary>
