@@ -11,15 +11,15 @@ namespace GameLib
     /// </summary>
     public class IterableDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
-        private Dictionary<TKey, TValue> elemements_ = new();
+        private readonly Dictionary<TKey, TValue> elemements_ = new();
         /// <summary>
         /// Items to add on next <see cref="Update"/> call.
         /// </summary>
-        private List<KeyValuePair<TKey, TValue>> toAdd_ = new();
+        private readonly List<KeyValuePair<TKey, TValue>> toAdd_ = new();
         /// <summary>
         /// Keys to remove on next <see cref="Update"/> call.
         /// </summary>
-        private List<TKey> toRemove_ = new();
+        private readonly List<TKey> toRemove_ = new();
         /// <summary>
         /// Determine if dictionary should be cleared on next <see cref="Update"/> ca;;/
         /// </summary>
