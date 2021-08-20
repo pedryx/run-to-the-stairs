@@ -10,7 +10,7 @@ namespace GameLib
     /// </summary>
     public class EntityPool : IEnumerable<Entity>
     {
-        private IterableDictionary<string, Entity> entities_ = new();
+        private readonly IterableDictionary<string, Entity> entities_ = new();
 
         /// <summary>
         /// Occur when entity is added to pool.
@@ -46,7 +46,7 @@ namespace GameLib
             entities_.Update();
             foreach (var entity in entities_.Values)
             {
-                entities_.Update();
+                entity.Update();
             }
         }
 
