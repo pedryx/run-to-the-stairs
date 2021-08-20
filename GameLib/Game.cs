@@ -1,9 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace GameLib
 {
-    public class Game
+    /// <summary>
+    /// Represent a game of Entity-Component-System architecture. There are three main
+    /// structures in this architecture: entities, components and systems. Components are
+    /// simple classes (or stuctures) that contains only data. Entity is a simple collection
+    /// of components. Systems are the place where are game logic occur, each system handles
+    /// specific types of components and are resposible for updating some part of game logic.
+    /// </summary>
+    /// <remarks>
+    /// For example apperance component describes how should entity appear. Every entity with
+    /// wants to have some apperance have apperance component. And there is render system which
+    /// has internal collection of all apperance components and it takes all these components
+    /// and render a apperance of the entitiy according to them.
+    /// </remarks>
+    public abstract class Game
     {
         /// <summary>
         /// Date and time of prevous call of <see cref="CalcDeltaTime(float)"/>.
@@ -13,6 +27,30 @@ namespace GameLib
         /// Determine if next call of <see cref="Render(float)"/> should be skipped.
         /// </summary>
         private bool skipRender_;
+        private IEnumerable<IGameSystem> gameSystems_;
+        private IEnumerable<IRenderSystem> renderSystems_;
+
+        protected abstract IEnumerable<IGameSystem> InitializeGameSystems();
+
+        protected abstract IEnumerable<IRenderSystem> InitializeRenderSystems();
+
+        /// <summary>
+        /// Occur before initializing game and render systems.
+        /// </summary>
+        protected virtual void PreInitialize() { }
+
+        /// <summary>
+        /// Occur after initializing game and render systems.
+        /// </summary>
+        protected virtual void PostInitialize() { }
+
+        public void Initialize()
+        {
+            PreInitialize();
+            gameSystems_ = InitializeGameSystems();
+            renderSystems_ = InitializeRenderSystems();
+            PostInitialize();
+        }
 
         /// <summary>
         /// Calculate time between last and current call of <see cref="CalcDeltaTime(float)"/>
@@ -29,8 +67,8 @@ namespace GameLib
         /// </returns>
         public float CalcDeltaTime(float fps = 60)
         {
-            if (fps == 0)
-                throw new ArgumentException("Argument cannot be zero.", nameof(fps));
+            if (fps <= 0)
+                throw new ArgumentException("Argument cannot be negative or zero.", nameof(fps));
 
             DateTime current = DateTime.Now;
             float deltaTime = (float)(current - last_).TotalSeconds;
@@ -55,7 +93,10 @@ namespace GameLib
         /// <param name="deltaTime">Time ellapsed between previous and current frame.</param>
         public void Update(float deltaTime)
         {
-
+            foreach (var system in gameSystems_)
+            {
+                system.Update(deltaTime);
+            }
         }
 
         /// <summary>
@@ -63,7 +104,7 @@ namespace GameLib
         /// <see cref="CalcDeltaTime(float)"/> for more info.
         /// </summary>
         /// <param name="deltaTime">Time ellapsed between previous and current frame.</param>
-        public void Render(float deltaTime)
+        public void Render(float deltaTime, IRenderer renderer)
         {
             if (skipRender_)
             {
@@ -71,6 +112,10 @@ namespace GameLib
                 return;
             }
 
+            foreach (var system in renderSystems_)
+            {
+                system.Render(deltaTime, renderer);
+            }
         }
 
     }

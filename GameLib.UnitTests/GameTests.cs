@@ -12,11 +12,11 @@ namespace GameLib.UnitTests
         [InlineData(10000)]
         public void CalcDeltaTime_FrameLength_DeltaTimeSimiliarToFrameLength(float fps)
         {
-            Game game = new Game();
+            var gameStub = new FakeGame();
 
-            game.CalcDeltaTime(fps);  // first is invalid -- see summary for CalcDeltaTime
+            gameStub.CalcDeltaTime(fps);  // first is invalid -- see summary for CalcDeltaTime
             DateTime before = DateTime.Now;
-            float deltaTime = game.CalcDeltaTime(fps);
+            float deltaTime = gameStub.CalcDeltaTime(fps);
             DateTime after = DateTime.Now;
             float frameLength = (float)(after - before).TotalSeconds;
 
