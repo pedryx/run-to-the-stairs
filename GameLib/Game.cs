@@ -27,12 +27,12 @@ namespace GameLib
         /// Determine if next call of <see cref="Render(float)"/> should be skipped.
         /// </summary>
         private bool skipRender_;
-        private IEnumerable<IGameSystem> gameSystems_;
-        private IEnumerable<IRenderSystem> renderSystems_;
+        private IEnumerable<GameSystem> gameSystems_;
+        private IEnumerable<RenderSystem> renderSystems_;
 
-        protected abstract IEnumerable<IGameSystem> InitializeGameSystems();
+        protected abstract IEnumerable<GameSystem> InitializeGameSystems();
 
-        protected abstract IEnumerable<IRenderSystem> InitializeRenderSystems();
+        protected abstract IEnumerable<RenderSystem> InitializeRenderSystems();
 
         /// <summary>
         /// Occur before initializing game and render systems.
