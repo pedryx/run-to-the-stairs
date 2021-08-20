@@ -8,7 +8,7 @@ namespace GameLib
     /// </summary>
     public class Entity
     {
-        private IterableDictionary<Type, IComponent> components_ = new();
+        private readonly IterableDictionary<Type, IComponent> components_ = new();
 
         /// <summary>
         /// Occur when new component is added.
