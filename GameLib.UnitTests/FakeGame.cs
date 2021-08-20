@@ -8,14 +8,14 @@ namespace GameLib.UnitTests
     /// </summary>
     class FakeGame : Game
     {
-        protected override IEnumerable<IGameSystem> InitializeGameSystems()
+        protected override IEnumerable<GameSystem> InitializeGameSystems()
         {
-            return new List<IGameSystem>();
+            return new List<GameSystem>();
         }
 
-        protected override IEnumerable<IRenderSystem> InitializeRenderSystems()
+        protected override IEnumerable<RenderSystem> InitializeRenderSystems()
         {
-            return new List<IRenderSystem>();
+            return new List<RenderSystem>();
         }
     }
 }
