@@ -8,9 +8,8 @@
         /// <summary>
         /// Render sprite. Sprite is clipped then transformed then rendered.
         /// </summary>
-        /// <param name="spriteName">Name of the sprite.</param>
-        /// <param name="transform">Transformation of the sprite.</param>
+        /// <param name="sprite">Sprite to render.</param>
         /// <param name="clip">Clip of the sprite.</param>
-        void Render(string spriteName, Transform transform, Rectangle? clip = null);
+        void Render(Sprite sprite, Rectangle? clip = null);
     }
 }
