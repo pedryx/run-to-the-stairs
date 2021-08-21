@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Xml.Serialization;
 
-
+//todo: change format from xml to xaml
 namespace GameLib.Managers.IO
 {
     public class EntityManager : IOManager<Entity>
