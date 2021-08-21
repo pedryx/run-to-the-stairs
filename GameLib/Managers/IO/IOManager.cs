@@ -70,6 +70,12 @@ namespace GameLib.Managers.IO
         /// <param name="path">Path from which will be items loaded.</param>
         public void LoadAll(string path)
         {
+            if (!Directory.Exists(path))
+            {
+                Console.WriteLine($"Directory {path} used as default path for {GetType().Name} dont exist!");
+                return;
+            }
+
             var files = Directory.GetFiles(path);
             foreach (var file in files)
             {
