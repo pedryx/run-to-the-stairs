@@ -29,6 +29,7 @@ namespace GameLib
 
         public override void Render(float deltaTime, IRenderer renderer)
         {
+            renderer.StartRender();
             PreRender(deltaTime);
             foreach (var entity in Entities)
             {
@@ -36,6 +37,8 @@ namespace GameLib
 
                 RenderItem(deltaTime, renderer, component);
             }
+            PostRender(deltaTime);
+            renderer.EndRender();
         }
 
         /// <summary>
@@ -69,6 +72,7 @@ namespace GameLib
 
         public override void Render(float deltaTime, IRenderer renderer)
         {
+            renderer.StartRender();
             PreRender(deltaTime);
             foreach (var entity in Entities)
             {
@@ -77,6 +81,8 @@ namespace GameLib
 
                 RenderItem(deltaTime, renderer, component1, component2);
             }
+            PostRender(deltaTime);
+            renderer.EndRender();
         }
 
         /// <summary>
@@ -111,6 +117,7 @@ namespace GameLib
 
         public override void Render(float deltaTime, IRenderer renderer)
         {
+            renderer.StartRender();
             PreRender(deltaTime);
             foreach (var entity in Entities)
             {
@@ -120,6 +127,8 @@ namespace GameLib
 
                 RenderItem(deltaTime, renderer, component1, component2, component3);
             }
+            PostRender(deltaTime);
+            renderer.EndRender();
         }
 
         /// <summary>

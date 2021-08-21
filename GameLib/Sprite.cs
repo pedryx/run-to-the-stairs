@@ -8,5 +8,7 @@
         public string Name { get; set; }
 
         public Transform Transform { get; set; }
+
+        public Rectangle? Clip { get; set; }
     }
 }
