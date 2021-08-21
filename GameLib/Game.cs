@@ -35,6 +35,8 @@ namespace GameLib
 
         public EntityManager EntityManager { get; private set; } = new EntityManager();
 
+        public EntityPool Pool { get; private set; } = new EntityPool();
+
         protected abstract IEnumerable<GameSystem> InitializeGameSystems();
 
         protected abstract IEnumerable<RenderSystem> InitializeRenderSystems();
@@ -55,9 +57,18 @@ namespace GameLib
             gameSystems_ = InitializeGameSystems();
             renderSystems_ = InitializeRenderSystems();
             TypeFinder.Search();
-            PostInitialize();
+
+            foreach (var system in gameSystems_)
+            {
+                system.Associate(Pool);
+            }
+            foreach (var system in renderSystems_)
+            {
+                system.Associate(Pool);
+            }
 
             EntityManager.LoadAll();
+            PostInitialize();
         }
 
         /// <summary>
@@ -105,6 +116,7 @@ namespace GameLib
             {
                 system.Update(deltaTime);
             }
+            Pool.Update();
         }
 
         /// <summary>
