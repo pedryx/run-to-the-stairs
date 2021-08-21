@@ -11,7 +11,8 @@ namespace GameLib
     /// </summary>
     public static class TypeFinder
     {
-        private static List<Assembly> registeredAssemblies_ = new();
+        private static readonly List<Assembly> registeredAssemblies_ = new();
+
         private static Dictionary<string, Type> componentTypes_;
 
         /// <summary>

@@ -9,8 +9,8 @@ namespace GameLib
     /// </summary>
     public abstract class BaseSystem
     {
-        private List<Entity> entities_ = new();
-        private List<Type> supportedTypes_;
+        private readonly List<Entity> entities_ = new();
+        private readonly List<Type> supportedTypes_;
 
         /// <summary>
         /// Entities containing components which are handled by system.

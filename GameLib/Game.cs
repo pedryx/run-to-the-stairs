@@ -33,10 +33,22 @@ namespace GameLib
         private IEnumerable<GameSystem> gameSystems_;
         private IEnumerable<RenderSystem> renderSystems_;
 
-        public EntityManager EntityManager { get; private set; } = new EntityManager();
+        /// <summary>
+        /// Default entity manager.
+        /// </summary>
+        public EntityManager EntityManager { get; private set; }
 
+        /// <summary>
+        /// Default entiity pool.
+        /// </summary>
         public EntityPool Pool { get; private set; } = new EntityPool();
 
+        public Game()
+        {
+            EntityManager = new EntityManager(this);
+        }
+
+        #region Initialization
         protected abstract IEnumerable<GameSystem> InitializeGameSystems();
 
         protected abstract IEnumerable<RenderSystem> InitializeRenderSystems();
@@ -70,6 +82,7 @@ namespace GameLib
             EntityManager.LoadAll();
             PostInitialize();
         }
+        #endregion
 
         /// <summary>
         /// Calculate time between last and current call of <see cref="CalcDeltaTime(float)"/>

@@ -11,8 +11,8 @@ namespace RunToTheStairs.WPF
 {
     public class SkiaRenderer : IRenderer
     {
-        private SKCanvas canvas_;
-        private TextureManager textureManager_;
+        private readonly SKCanvas canvas_;
+        private readonly TextureManager textureManager_;
 
         public SKColor ClearColor { get; set; }
 

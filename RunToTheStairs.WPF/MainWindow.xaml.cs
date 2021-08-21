@@ -44,7 +44,7 @@ namespace RunToTheStairs.WPF
             game_.Initialize();
             textureManager_.LoadAll();
 
-            Thread gameLoopThread = new Thread(GameLoop)
+            var gameLoopThread = new Thread(GameLoop)
             {
                 IsBackground = true,
                 Name = "Game Loop Thread",

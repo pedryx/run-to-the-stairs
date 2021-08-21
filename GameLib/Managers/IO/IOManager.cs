@@ -14,7 +14,7 @@ namespace GameLib.Managers.IO
         /// <summary>
         /// Contains loaded items.
         /// </summary>
-        private Dictionary<string, T> items_ = new();
+        private readonly Dictionary<string, T> items_ = new();
 
         /// <summary>
         /// Cotains loaded items.
