@@ -15,7 +15,7 @@ namespace GameLib
 
         public float Rotation { get; set; }
 
-        public Vector2 Scale { get; set; }
+        public Vector2 Scale { get; set; } = Vector2.One;
 
         public Matrix4x4 GetMatrix()
             => new Matrix4x4()
