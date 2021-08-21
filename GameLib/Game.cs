@@ -1,6 +1,9 @@
-﻿using System;
+﻿using GameLib.Managers.IO;
+
+using System;
 using System.Collections.Generic;
 using System.Threading;
+
 
 namespace GameLib
 {
@@ -30,6 +33,8 @@ namespace GameLib
         private IEnumerable<GameSystem> gameSystems_;
         private IEnumerable<RenderSystem> renderSystems_;
 
+        public EntityManager EntityManager { get; private set; } = new EntityManager();
+
         protected abstract IEnumerable<GameSystem> InitializeGameSystems();
 
         protected abstract IEnumerable<RenderSystem> InitializeRenderSystems();
@@ -49,7 +54,10 @@ namespace GameLib
             PreInitialize();
             gameSystems_ = InitializeGameSystems();
             renderSystems_ = InitializeRenderSystems();
+            TypeFinder.Search();
             PostInitialize();
+
+            EntityManager.LoadAll();
         }
 
         /// <summary>
