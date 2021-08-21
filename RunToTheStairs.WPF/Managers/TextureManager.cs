@@ -9,7 +9,7 @@ namespace RunToTheStairs.WPF.Managers
     {
         private const string errorTextureName = "error";
 
-        public TextureManager(string defaultPath = "Content/Entities") 
+        public TextureManager(string defaultPath = "Content/Textures") 
             : base(defaultPath, null) { }
 
         protected override void LoadedAll()

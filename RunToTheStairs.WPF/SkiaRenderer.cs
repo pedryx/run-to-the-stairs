@@ -31,12 +31,12 @@ namespace RunToTheStairs.WPF
 
         public void EndRender() { }
 
-        public void Render(string textureName, Matrix4x4 transform, Rectangle? clip = null)
+        public void Render(Sprite sprite, Transform transform, Rectangle? clip = null)
         {
-            SKBitmap bitmap = textureManager_[textureName];
-            SKRect destination = canvas_.LocalClipBounds;
+            SKBitmap bitmap = textureManager_[sprite.Name];
+            SKRect destination = new(0, 0, bitmap.Width, bitmap.Height);
 
-            canvas_.SetMatrix(transform.ToSKMatrix());
+            canvas_.SetMatrix(CalcTransform(transform, sprite.Transform));
             if (clip == null)
             {
                 canvas_.DrawBitmap(bitmap, destination);
@@ -46,6 +46,17 @@ namespace RunToTheStairs.WPF
                 SKRect source = clip.Value.ToSKRect();
                 canvas_.DrawBitmap(bitmap, source, destination);
             }
+        }
+
+        private static SKMatrix CalcTransform(Transform entitiyTransform, Transform spriteTransform)
+        {
+            SKMatrixWrapper entityMatrix 
+                = (SKMatrixWrapper)entitiyTransform.GetMatrix<SKMatrixWrapper>();
+            SKMatrixWrapper spriteMatrix
+                = (SKMatrixWrapper)spriteTransform.GetMatrix<SKMatrixWrapper>();
+
+            SKMatrixWrapper result = (SKMatrixWrapper)entityMatrix.Multiply(spriteMatrix);
+            return result.Matrix;
         }
     }
 }

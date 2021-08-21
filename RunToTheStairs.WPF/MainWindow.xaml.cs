@@ -32,7 +32,7 @@ namespace RunToTheStairs.WPF
         private readonly SKColor clearColor_ = SKColors.SkyBlue;
 
         private float deltaTime_;
-        private bool shouldRender_ = false;
+        private bool shouldRender_;
 
         public MainWindow()
         {

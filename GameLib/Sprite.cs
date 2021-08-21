@@ -7,7 +7,7 @@
     {
         public string Name { get; set; }
 
-        public Transform Transform { get; set; }
+        public Transform Transform { get; set; } = new Transform();
 
         public Rectangle? Clip { get; set; }
     }

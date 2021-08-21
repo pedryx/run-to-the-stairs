@@ -15,6 +15,6 @@ namespace GameLib
         /// Render sprite. Sprite is clipped then transformed then rendered.
         /// </summary>
         /// <param name="clip">Clip of the sprite.</param>
-        void Render(string textureName, Matrix4x4 transform, Rectangle? clip = null);
+        void Render(Sprite sprite, Transform transform, Rectangle? clip = null);
     }
 }

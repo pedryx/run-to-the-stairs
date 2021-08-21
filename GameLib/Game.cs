@@ -70,6 +70,7 @@ namespace GameLib
             renderSystems_ = InitializeRenderSystems();
             TypeFinder.Search();
 
+            EntityManager.LoadAll();
             foreach (var system in gameSystems_)
             {
                 system.Associate(Pool);
@@ -79,7 +80,6 @@ namespace GameLib
                 system.Associate(Pool);
             }
 
-            EntityManager.LoadAll();
             PostInitialize();
         }
         #endregion

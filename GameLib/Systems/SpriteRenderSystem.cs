@@ -1,7 +1,5 @@
 ﻿using GameLib.Components;
 
-using System.Numerics;
-
 
 namespace GameLib.Systems
 {
@@ -17,10 +15,7 @@ namespace GameLib.Systems
         {
             foreach (var sprite in apperance.Sprites)
             {
-                Matrix4x4 spriteTransform 
-                    = transform.GetMatrix() * sprite.Transform.GetMatrix();
-
-                renderer.Render(sprite.Name, spriteTransform, sprite.Clip);
+                renderer.Render(sprite, transform, sprite.Clip);
             }
         }
 

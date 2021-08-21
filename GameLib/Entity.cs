@@ -108,19 +108,18 @@ namespace GameLib
 
         public void ReadXml(XmlReader reader)
         {
-            if (reader.ReadAttributeValue())
+            string attributeValue = reader.GetAttribute("AddToPool");
+
+            if (attributeValue != null)
             {
-                if (reader.Name.ToLower() == "addtopool")
+                if (bool.TryParse(attributeValue, out bool value))
                 {
-                    if (bool.TryParse(reader.Value, out bool value))
-                    {
-                        AddToPool = value;
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Value \"{reader.Value}\" on " +
-                            $"attribute {reader.Name} cannot be parsed to bool!");
-                    }
+                    AddToPool = value;
+                }
+                else
+                {
+                    Console.WriteLine($"Value \"{reader.Value}\" on " +
+                        $"attribute {reader.Name} cannot be parsed to bool!");
                 }
             }
 

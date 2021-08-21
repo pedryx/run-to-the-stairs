@@ -84,10 +84,14 @@ namespace GameLib.Managers.IO
                 return;
             }
 
-            var files = Directory.GetFiles(path);
+            var files = Directory.GetFiles(path, string.Empty, SearchOption.AllDirectories);
             foreach (var file in files)
             {
                 string name = file.Split('/', '\\').Last().Split('.').First().ToLower();
+
+                if (name.StartsWith('_'))
+                    continue;
+
                 if (items_.ContainsKey(name))
                 {
                     Console.WriteLine($"Manager alread loaded item with this name: {name}!");
