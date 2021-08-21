@@ -5,13 +5,8 @@
     /// </summary>
     public class Sprite
     {
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
         public Transform Transform { get; set; }
-
-        public Sprite(string name)
-        {
-            Name = name;
-        }
     }
 }
