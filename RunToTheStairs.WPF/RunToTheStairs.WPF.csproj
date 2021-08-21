@@ -6,4 +6,12 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="SkiaSharp.Views.WPF" Version="2.80.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RunToTheStairs\RunToTheStairs.csproj" />
+  </ItemGroup>
+
 </Project>
