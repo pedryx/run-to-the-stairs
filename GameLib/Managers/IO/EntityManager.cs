@@ -6,8 +6,14 @@ namespace GameLib.Managers.IO
 {
     public class EntityManager : IOManager<Entity>
     {
-        public EntityManager(string defaultPath = "Content/Entities", Entity errorItem = null)
-            : base(defaultPath, errorItem) { }
+        private readonly Game game_;
+
+        public EntityManager(Game game, string defaultPath = "Content/Entities",
+            Entity errorItem = null)
+            : base(defaultPath, errorItem) 
+        {
+            game_ = game;
+        }
 
         public override Entity Load(string name, string file)
         {
@@ -17,6 +23,9 @@ namespace GameLib.Managers.IO
             using (var reader = new StreamReader(file))
                 entity = (Entity)serializer.Deserialize(reader);
 
+            if (entity.AddToPool)
+                game_.Pool.Add(name, entity);
+
             return entity;
         }
 
@@ -24,8 +33,8 @@ namespace GameLib.Managers.IO
         {
             var serializer = new XmlSerializer(typeof(Entity));
 
-            using (var writter = new StreamWriter(file))
-                serializer.Serialize(writter, entity);
+            using var writter = new StreamWriter(file);
+            serializer.Serialize(writter, entity);
         }
     }
 }

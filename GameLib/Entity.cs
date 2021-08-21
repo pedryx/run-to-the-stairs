@@ -3,6 +3,7 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
+
 namespace GameLib
 {
     /// <summary>
@@ -10,7 +11,12 @@ namespace GameLib
     /// </summary>
     public class Entity : IXmlSerializable
     {
-        private IterableDictionary<Type, IComponent> components_ = new();
+        private readonly IterableDictionary<Type, IComponent> components_ = new();
+
+        /// <summary>
+        /// Determine if entitiy should be added to default entitiy pool after loaded from file.
+        /// </summary>
+        internal bool AddToPool { get; private set; }
 
         /// <summary>
         /// Occur when new component is added.
@@ -69,7 +75,7 @@ namespace GameLib
 
         public Entity Clone()
         {
-            Entity entity = new Entity();
+            var entity = new Entity();
             foreach (var component in components_)
             {
                 Type type = component.GetType();
@@ -77,7 +83,7 @@ namespace GameLib
 
                 foreach (var property in type.GetProperties())
                 {
-                    object? value = property.GetValue(component);
+                    object value = property.GetValue(component);
                     property.SetValue(clone, value);
                 }
             }
@@ -102,6 +108,22 @@ namespace GameLib
 
         public void ReadXml(XmlReader reader)
         {
+            if (reader.ReadAttributeValue())
+            {
+                if (reader.Name.ToLower() == "addtopool")
+                {
+                    if (bool.TryParse(reader.Value, out bool value))
+                    {
+                        AddToPool = value;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Value \"{reader.Value}\" on " +
+                            $"attribute {reader.Name} cannot be parsed to bool!");
+                    }
+                }
+            }
+
             reader.Read();
             while (reader.Depth != 0)
             {
