@@ -112,6 +112,7 @@ namespace GameLib
                 return;
             }
 
+            renderer.Clear();
             foreach (var system in renderSystems_)
             {
                 system.Render(deltaTime, renderer);

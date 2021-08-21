@@ -9,6 +9,7 @@ namespace GameLib
     {
         void StartRender();
         void EndRender();
+        void Clear();
 
         /// <summary>
         /// Render sprite. Sprite is clipped then transformed then rendered.

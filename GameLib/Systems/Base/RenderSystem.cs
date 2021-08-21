@@ -29,29 +29,27 @@ namespace GameLib
 
         public override void Render(float deltaTime, IRenderer renderer)
         {
-            renderer.StartRender();
-            PreRender(deltaTime);
+            PreRender(deltaTime, renderer);
             foreach (var entity in Entities)
             {
                 T component = entity.Get<T>();
 
                 RenderItem(deltaTime, renderer, component);
             }
-            PostRender(deltaTime);
-            renderer.EndRender();
+            PostRender(deltaTime, renderer);
         }
 
         /// <summary>
         /// Occur before render.
         /// </summary>
         /// <param name="deltaTime">Time ellapsed between last and current frame.</param>
-        protected virtual void PreRender(float deltaTime) { }
+        protected virtual void PreRender(float deltaTime, IRenderer renderer) { }
 
         /// <summary>
         /// Occur after render.
         /// </summary>
         /// <param name="deltaTime">Time ellapsed between last and current frame.</param>
-        protected virtual void PostRender(float deltaTime) { }
+        protected virtual void PostRender(float deltaTime, IRenderer renderer) { }
 
         /// <summary>
         /// Render item.
@@ -72,8 +70,7 @@ namespace GameLib
 
         public override void Render(float deltaTime, IRenderer renderer)
         {
-            renderer.StartRender();
-            PreRender(deltaTime);
+            PreRender(deltaTime, renderer);
             foreach (var entity in Entities)
             {
                 T1 component1 = entity.Get<T1>();
@@ -81,21 +78,20 @@ namespace GameLib
 
                 RenderItem(deltaTime, renderer, component1, component2);
             }
-            PostRender(deltaTime);
-            renderer.EndRender();
+            PostRender(deltaTime, renderer);
         }
 
         /// <summary>
         /// Occur before render.
         /// </summary>
         /// <param name="deltaTime">Time ellapsed between last and current frame.</param>
-        protected virtual void PreRender(float deltaTime) { }
+        protected virtual void PreRender(float deltaTime, IRenderer renderer) { }
 
         /// <summary>
         /// Occur after render.
         /// </summary>
         /// <param name="deltaTime">Time ellapsed between last and current frame.</param>
-        protected virtual void PostRender(float deltaTime) { }
+        protected virtual void PostRender(float deltaTime, IRenderer renderer) { }
 
         /// <summary>
         /// Render item.
@@ -117,8 +113,7 @@ namespace GameLib
 
         public override void Render(float deltaTime, IRenderer renderer)
         {
-            renderer.StartRender();
-            PreRender(deltaTime);
+            PreRender(deltaTime, renderer);
             foreach (var entity in Entities)
             {
                 T1 component1 = entity.Get<T1>();
@@ -127,21 +122,20 @@ namespace GameLib
 
                 RenderItem(deltaTime, renderer, component1, component2, component3);
             }
-            PostRender(deltaTime);
-            renderer.EndRender();
+            PostRender(deltaTime, renderer);
         }
 
         /// <summary>
         /// Occur before render.
         /// </summary>
         /// <param name="deltaTime">Time ellapsed between last and current frame.</param>
-        protected virtual void PreRender(float deltaTime) { }
+        protected virtual void PreRender(float deltaTime, IRenderer renderer) { }
 
         /// <summary>
         /// Occur after render.
         /// </summary>
         /// <param name="deltaTime">Time ellapsed between last and current frame.</param>
-        protected virtual void PostRender(float deltaTime) { }
+        protected virtual void PostRender(float deltaTime, IRenderer renderer) { }
 
         /// <summary>
         /// Render item.
