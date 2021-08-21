@@ -7,8 +7,15 @@ namespace RunToTheStairs.WPF.Managers
 {
     public class TextureManager : IOManager<SKBitmap>
     {
-        public TextureManager(string defaultPath = "Content/Entities", SKBitmap errorItem = null) 
-            : base(defaultPath, errorItem) { }
+        private const string errorTextureName = "error";
+
+        public TextureManager(string defaultPath = "Content/Entities") 
+            : base(defaultPath, null) { }
+
+        protected override void LoadedAll()
+        {
+            ErrorItem = this[errorTextureName];
+        }
 
         public override SKBitmap Load(string name, string file)
             => SKBitmap.Decode(file);

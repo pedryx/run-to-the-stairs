@@ -24,7 +24,7 @@ namespace GameLib.Managers.IO
         /// <summary>
         /// Item returned when requested item is not found.
         /// </summary>
-        protected T ErrorItem { get; private set; }
+        public T ErrorItem { get; protected set; }
 
         /// <summary>
         /// Path used by <see cref="LoadAll"/>.
@@ -40,8 +40,11 @@ namespace GameLib.Managers.IO
         {
             get
             {
-                if (items_.ContainsKey(name))
-                    return items_[name];
+                // todo: Could behave differently which different culture info!
+                string nameLower = name.ToLower();
+
+                if (items_.ContainsKey(nameLower))
+                    return items_[nameLower];
                 else
                     return ErrorItem;
             }
@@ -57,6 +60,11 @@ namespace GameLib.Managers.IO
             DefaultPath = defaultPath;
             ErrorItem = errorItem;
         }
+
+        /// <summary>
+        /// Occur after each <see cref="LoadAll(string)"/> call.
+        /// </summary>
+        protected virtual void LoadedAll() { }
 
         /// <summary>
         /// Load all items from <see cref="DefaultPath"/>.
@@ -79,7 +87,13 @@ namespace GameLib.Managers.IO
             var files = Directory.GetFiles(path);
             foreach (var file in files)
             {
-                string name = file.Split('/', '\\').Last().Split('.').First();
+                string name = file.Split('/', '\\').Last().Split('.').First().ToLower();
+                if (items_.ContainsKey(name))
+                {
+                    Console.WriteLine($"Manager alread loaded item with this name: {name}!");
+                    continue;
+                }
+
                 T item;
                 try
                 {
