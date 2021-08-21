@@ -67,6 +67,24 @@ namespace GameLib
         public void Update()
             => components_.Update();
 
+        public Entity Clone()
+        {
+            Entity entity = new Entity();
+            foreach (var component in components_)
+            {
+                Type type = component.GetType();
+                IComponent clone = (IComponent)Activator.CreateInstance(type);
+
+                foreach (var property in type.GetProperties())
+                {
+                    object? value = property.GetValue(component);
+                    property.SetValue(clone, value);
+                }
+            }
+
+            return entity;
+        }
+
         private void Components_OnAdd(object sender,
             KeyValuePairEventArgs<Type, IComponent> e)
         {
