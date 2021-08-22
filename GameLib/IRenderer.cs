@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace GameLib
+﻿namespace GameLib
 {
     /// <summary>
     /// Represent an interface for renderers.
@@ -16,5 +14,6 @@ namespace GameLib
         /// </summary>
         /// <param name="clip">Clip of the sprite.</param>
         void Render(Sprite sprite, Transform transform, Rectangle? clip = null);
+        IPrimitivesRenderer GetPrimitivesRenderer();
     }
 }
