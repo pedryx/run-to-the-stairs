@@ -15,7 +15,7 @@ namespace RunToTheStairs.WPF
         private readonly SKCanvas canvas_;
         private readonly TextureManager textureManager_;
 
-        private readonly SKPaint brush_ = new SKPaint();
+        private readonly SKPaint brush_ = new();
 
         public SKColor ClearColor { get; set; }
 
