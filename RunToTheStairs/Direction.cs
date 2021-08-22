@@ -3,7 +3,7 @@
     /// <summary>
     /// Represent an ortogonal direction in 2D space.
     /// </summary>
-    enum Direction
+    public enum Direction
     {
         None,
         Up,

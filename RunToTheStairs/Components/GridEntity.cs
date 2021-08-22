@@ -6,7 +6,7 @@ namespace RunToTheStairs.Components
     /// <summary>
     /// Represent an entity on the grid.
     /// </summary>
-    class GridEntity : IComponent
+    public class GridEntity : IComponent
     {
         /// <summary>
         /// Represent a X coor position of entity on the grid.
