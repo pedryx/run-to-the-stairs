@@ -126,6 +126,12 @@ namespace GameLib
             reader.Read();
             while (reader.Depth != 0)
             {
+                if (!TypeFinder.ComponentTypes.ContainsKey(reader.Name))
+                {
+                    Console.WriteLine($"Could not find component with the name \"{reader.Name}\"");
+                    continue;
+                }
+
                 Type type = TypeFinder.ComponentTypes[reader.Name];
                 IComponent component = (IComponent)new XmlSerializer(type).Deserialize(reader);
 
