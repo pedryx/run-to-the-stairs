@@ -73,6 +73,12 @@ namespace GameLib
         public void Update()
             => components_.Update();
 
+        /// <summary>
+        /// Clone entity by making shallow copy of each component on entitiy.
+        /// In cloning of components only properties are copied and properties
+        /// with attribute <see cref="XmlIgnoreAttribute"/> are ignored.
+        /// </summary>
+        /// <returns>Cloned entity.</returns>
         public Entity Clone()
         {
             var entity = new Entity();
@@ -83,6 +89,9 @@ namespace GameLib
 
                 foreach (var property in type.GetProperties())
                 {
+                    if (Attribute.IsDefined(property, typeof(XmlIgnoreAttribute)))
+                        continue;
+
                     object value = property.GetValue(component);
                     property.SetValue(clone, value);
                 }
