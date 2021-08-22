@@ -1,11 +1,13 @@
-﻿using GameLib.Managers.IO;
+﻿using GameLib.Graphics;
+using GameLib.Managers.IO;
 
 using SkiaSharp;
 
+using System.Numerics;
 
 namespace RunToTheStairs.WPF.Managers
 {
-    public class TextureManager : IOManager<SKBitmap>
+    public class TextureManager : IOManager<SKBitmap>, ITextureInfoProvider
     {
         private const string errorTextureName = "error";
 
@@ -19,5 +21,12 @@ namespace RunToTheStairs.WPF.Managers
 
         public override SKBitmap Load(string name, string file)
             => SKBitmap.Decode(file);
+
+        public Vector2 GetSize(string name)
+        {
+            SKBitmap bitmap = this[name];
+
+            return new Vector2(bitmap.Width, bitmap.Height);
+        }
     }
 }

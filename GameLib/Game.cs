@@ -1,4 +1,5 @@
-﻿using GameLib.Managers.IO;
+﻿using GameLib.Graphics;
+using GameLib.Managers.IO;
 
 using System;
 using System.Collections.Generic;
@@ -43,9 +44,12 @@ namespace GameLib
         /// </summary>
         public EntityPool Pool { get; private set; } = new EntityPool();
 
-        public Game()
+        public ITextureInfoProvider TextureInfoProvider { get; private set; }
+
+        public Game(ITextureInfoProvider textureInfoProvider)
         {
             EntityManager = new EntityManager(this);
+            TextureInfoProvider = textureInfoProvider;
         }
 
         #region Initialization

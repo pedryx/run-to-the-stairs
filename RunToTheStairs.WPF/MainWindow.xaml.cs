@@ -26,10 +26,11 @@ namespace RunToTheStairs.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly RunToTheStairsGame game_ = new();
         private readonly TextureManager textureManager_ = new();
         private readonly object gameLoopLock_ = new();
         private readonly SKColor clearColor_ = SKColors.SkyBlue;
+
+        private RunToTheStairsGame game_;
 
         private float deltaTime_;
         private bool shouldRender_;
@@ -41,8 +42,10 @@ namespace RunToTheStairs.WPF
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            game_.Initialize();
+            game_ = new RunToTheStairsGame(textureManager_);
             textureManager_.LoadAll();
+
+            game_.Initialize();
 
             var gameLoopThread = new Thread(GameLoop)
             {

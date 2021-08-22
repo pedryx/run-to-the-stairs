@@ -1,16 +1,19 @@
 ﻿using GameLib;
+using GameLib.Graphics;
 using GameLib.Systems;
 
 using RunToTheStairs.Systems;
 
-using System.Numerics;
 using System.Collections.Generic;
+using System.Numerics;
 
 
 namespace RunToTheStairs
 {
     public class RunToTheStairsGame : Game
     {
+        public RunToTheStairsGame(ITextureInfoProvider textureInfoProvider) 
+            : base(textureInfoProvider) { }
 
         protected override void PreInitialize()
         {
