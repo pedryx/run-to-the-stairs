@@ -68,7 +68,7 @@ namespace RunToTheStairs.WPF
                 = (SKMatrixWrapper)spriteTransform.GetMatrix<SKMatrixWrapper>();
 
             SKMatrixWrapper result = (SKMatrixWrapper)entityMatrix.Multiply(spriteMatrix);
-            return result.Matrix;
+            return SKMatrix.Concat(result.Matrix, SKMatrix.CreateScale(GlobalSettings.Scale, GlobalSettings.Scale));
         }
 
         public void SetColor(Color color)
