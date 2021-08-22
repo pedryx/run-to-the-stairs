@@ -26,7 +26,9 @@ namespace RunToTheStairs
         {
             return new List<GameSystem>()
             {
-                //new GridSystem(5, 5, 80, 80, Vector2.Zero),
+                new GridSystem(5, 5, 80, 80, Vector2.Zero),
+                new AnimationSystem(),
+                new GridAnimationSystem(),
             };
         }
 
