@@ -9,6 +9,7 @@ using SkiaSharp.Views.Desktop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -46,6 +47,11 @@ namespace RunToTheStairs.WPF
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Logger.ShowConsole();
+            GlobalSettings.Resolution = new Vector2()
+            {
+                X = (float)gameCanvas.RenderSize.Width,
+                Y = (float)gameCanvas.RenderSize.Height,
+            };
 
             game_ = new RunToTheStairsGame(textureManager_, new SkiaMathProvider());
             textureManager_.LoadAll();
