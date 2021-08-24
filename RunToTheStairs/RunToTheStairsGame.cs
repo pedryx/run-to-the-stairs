@@ -52,6 +52,7 @@ namespace RunToTheStairs
             return new List<RenderSystem>()
             {
                 new SpriteRenderSystem(this),
+                new GridDebugSystem(this, grid_),
             };
         }
     }

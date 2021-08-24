@@ -14,5 +14,7 @@
         /// Create matrix from transform.
         /// </summary>
         IMatrix MatrixFromTransform(Transform transform);
+
+        IMatrix GetIdentityMatrix();
     }
 }

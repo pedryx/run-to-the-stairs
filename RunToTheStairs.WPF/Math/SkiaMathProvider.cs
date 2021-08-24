@@ -33,5 +33,8 @@ namespace RunToTheStairs.WPF.Math
 
             return (SKMatrixWrapper)result;
         }
+
+        public IMatrix GetIdentityMatrix()
+            => (SKMatrixWrapper)SKMatrix.Identity;
     }
 }
