@@ -24,7 +24,7 @@ namespace GameLib.Systems
             foreach (var sprite in apperance.Sprites)
             {
                 IMatrix entityTransform = game_.MathProvider.MatrixFromTransform(transform);
-                IMatrix spriteTransform = game_.MathProvider.MatrixFromTransform(transform);
+                IMatrix spriteTransform = game_.MathProvider.MatrixFromTransform(sprite.Transform);
 
                 IMatrix word = game_.MathProvider.Concat(entityTransform, spriteTransform);
                 //todo: view matrix
