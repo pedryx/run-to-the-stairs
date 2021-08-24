@@ -1,22 +1,22 @@
 ﻿using GameLib;
 using GameLib.Graphics;
+using GameLib.Math;
 
 using System.Numerics;
 
 
 namespace RunToTheStairs.Systems
 {
-    class GridDebugSystem : RenderSystem
+    class DebugGridSystem : RenderSystem
     {
         private readonly Grid grid_;
-        private readonly Game game_;
 
         public int Stroke { get; set; } = 1;
 
-        public GridDebugSystem(Game game, Grid grid)
+        public DebugGridSystem(Camera camera, Grid grid)
+            : base(camera)
         {
             grid_ = grid;
-            game_ = game;
         }
 
         public override void Render(float deltaTime, IRenderer renderer)
@@ -31,7 +31,7 @@ namespace RunToTheStairs.Systems
                     new Vector2(x, 0),
                     new Vector2(x, GlobalSettings.Resolution.Y),
                     Stroke,
-                    game_.MathProvider.GetIdentityMatrix()
+                    Camera.GameTransform.GetMatrix()
                 );
             }
 
@@ -43,7 +43,7 @@ namespace RunToTheStairs.Systems
                     new Vector2(0, y),
                     new Vector2(GlobalSettings.Resolution.X, y),
                     Stroke,
-                    game_.MathProvider.GetIdentityMatrix()
+                    Camera.GameTransform.GetMatrix()
                 );
             }
         }
