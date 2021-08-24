@@ -1,9 +1,10 @@
-﻿using System.Numerics;
+﻿using GameLib.Math;
+
+using System.Numerics;
 
 
 namespace GameLib
 {
-
     /// <summary>
     /// Represent a trasformation information.
     /// </summary>
@@ -14,5 +15,11 @@ namespace GameLib
         public float Rotation { get; set; }
 
         public Vector2 Scale { get; set; } = Vector2.One;
+
+        public IMatrix GetMatrix(IMathProvider provider)
+            => provider.MatrixFromTransform(this);
+
+        public IMatrix GetMatrix()
+            => GetMatrix(GlobalSettings.MathProvider);
     }
 }

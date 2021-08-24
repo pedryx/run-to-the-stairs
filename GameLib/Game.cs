@@ -46,15 +46,15 @@ namespace GameLib
         /// </summary>
         public EntityPool Pool { get; private set; } = new EntityPool();
 
-        public ITextureInfoProvider TextureInfoProvider { get; private set; }
+        public Camera Camera { get; private set; } = new Camera();
 
-        public IMathProvider MathProvider { get; private set; }
+        public ITextureInfoProvider TextureInfoProvider { get; private set; }
 
         public Game(ITextureInfoProvider textureInfoProvider, IMathProvider mathProvider)
         {
             EntityManager = new EntityManager(this);
             TextureInfoProvider = textureInfoProvider;
-            MathProvider = mathProvider;
+            GlobalSettings.MathProvider = mathProvider;
         }
 
         #region Initialization
@@ -146,6 +146,7 @@ namespace GameLib
                 system.Update(deltaTime);
             }
             Pool.Update();
+            Camera.Update();
         }
 
         /// <summary>
