@@ -1,4 +1,4 @@
-﻿namespace GameLib
+﻿namespace GameLib.Graphics
 {
     /// <summary>
     /// Contains description of sprite.

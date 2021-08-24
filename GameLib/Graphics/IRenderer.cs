@@ -1,7 +1,7 @@
 ﻿using GameLib.Math;
 
 
-namespace GameLib
+namespace GameLib.Graphics
 {
     /// <summary>
     /// Represent an interface for renderers.

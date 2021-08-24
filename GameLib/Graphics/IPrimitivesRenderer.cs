@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Numerics;
 
 
-namespace GameLib
+namespace GameLib.Graphics
 {
     /// <summary>
     /// Represent an interface for renderer of primitive shapes.

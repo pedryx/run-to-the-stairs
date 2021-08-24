@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GameLib.Graphics;
+
+using System;
 
 
 namespace GameLib
