@@ -25,6 +25,8 @@ namespace GameLib
     public abstract class GameSystem<T> : GameSystem
         where T : IComponent
     {
+        protected Entity Entity { get; private set; }
+
         protected GameSystem() 
             : base(typeof(T)) { }
 
@@ -33,6 +35,8 @@ namespace GameLib
             PreUpdate(deltaTime);
             foreach (var entity in Entities)
             {
+                Entity = entity;
+
                 T component = entity.Get<T>();
 
                 UpdateItem(deltaTime, component);
@@ -65,6 +69,8 @@ namespace GameLib
         where T1 : IComponent
         where T2 : IComponent
     {
+        protected Entity Entity { get; private set; }
+
         protected GameSystem() 
             : base(typeof(T1), typeof(T2)) { }
 
@@ -73,6 +79,8 @@ namespace GameLib
             PreUpdate(deltaTime);
             foreach (var entity in Entities)
             {
+                Entity = entity;
+
                 T1 component1 = entity.Get<T1>();
                 T2 component2 = entity.Get<T2>();
 
@@ -106,6 +114,8 @@ namespace GameLib
         where T1 : IComponent
         where T2 : IComponent
     {
+        protected Entity Entity { get; private set; }
+
         protected GameSystem()
             : base(typeof(T1), typeof(T2), typeof(T3)) { }
 
@@ -114,6 +124,8 @@ namespace GameLib
             PreUpdate(deltaTime);
             foreach (var entity in Entities)
             {
+                Entity = entity;
+
                 T1 component1 = entity.Get<T1>();
                 T2 component2 = entity.Get<T2>();
                 T3 component3 = entity.Get<T3>();

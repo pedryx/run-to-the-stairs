@@ -10,8 +10,13 @@ namespace GameLib
     /// </summary>
     public abstract class RenderSystem : BaseSystem
     {
-        protected RenderSystem(params Type[] supportedTypes) 
-            : base(supportedTypes) { }
+        protected Camera Camera { get; private set; }
+
+        protected RenderSystem(Camera camera, params Type[] supportedTypes) 
+            : base(supportedTypes)
+        {
+            Camera = camera;
+        }
 
         /// <summary>
         /// Render part of the game.
@@ -26,14 +31,18 @@ namespace GameLib
     public abstract class RenderSystem<T> : RenderSystem
         where T : IComponent
     {
-        protected RenderSystem()
-            : base(typeof(T)) { }
+        protected Entity Entity { get; private set; }
+
+        protected RenderSystem(Camera camera)
+            : base(camera, typeof(T)) { }
 
         public override void Render(float deltaTime, IRenderer renderer)
         {
             PreRender(deltaTime, renderer);
             foreach (var entity in Entities)
             {
+                Entity = entity;
+
                 T component = entity.Get<T>();
 
                 RenderItem(deltaTime, renderer, component);
@@ -67,14 +76,18 @@ namespace GameLib
         where T1 : IComponent
         where T2 : IComponent
     {
-        protected RenderSystem()
-            : base(typeof(T1), typeof(T2)) { }
+        protected Entity Entity { get; private set; }
+
+        protected RenderSystem(Camera camera)
+            : base(camera, typeof(T1), typeof(T2)) { }
 
         public override void Render(float deltaTime, IRenderer renderer)
         {
             PreRender(deltaTime, renderer);
             foreach (var entity in Entities)
             {
+                Entity = entity;
+
                 T1 component1 = entity.Get<T1>();
                 T2 component2 = entity.Get<T2>();
 
@@ -110,14 +123,18 @@ namespace GameLib
         where T1 : IComponent
         where T2 : IComponent
     {
-        protected RenderSystem()
-            : base(typeof(T1), typeof(T2), typeof(T3)) { }
+        protected Entity Entity { get; private set; }
+
+        protected RenderSystem(Camera camera)
+            : base(camera, typeof(T1), typeof(T2), typeof(T3)) { }
 
         public override void Render(float deltaTime, IRenderer renderer)
         {
             PreRender(deltaTime, renderer);
             foreach (var entity in Entities)
             {
+                Entity = entity;
+
                 T1 component1 = entity.Get<T1>();
                 T2 component2 = entity.Get<T2>();
                 T3 component3 = entity.Get<T3>();

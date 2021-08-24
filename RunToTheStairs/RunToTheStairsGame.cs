@@ -32,9 +32,11 @@ namespace RunToTheStairs
         {
             var factory = new EntityFactory(this, grid_);
 
-            factory.CreateSkeleton("skeleton1", new Vector2(0, 0));
-            factory.CreateSkeleton("skeleton2", new Vector2(1, 1));
-            factory.CreateSkeleton("skeleton3", new Vector2(2, 2));
+            var skeleton1 = factory.CreateSkeleton("skeleton1", new Vector2(0, 0));
+            var skeleton2 = factory.CreateSkeleton("skeleton2", new Vector2(2, 2));
+            var skeleton3 = factory.CreateSkeleton("skeleton3", new Vector2(4, 4));
+
+            Camera.Follow(skeleton2);
         }
 
         protected override IEnumerable<GameSystem> InitializeGameSystems()
@@ -51,8 +53,8 @@ namespace RunToTheStairs
         {
             return new List<RenderSystem>()
             {
-                new SpriteRenderSystem(this),
-                new GridDebugSystem(this, grid_),
+                new SpriteRenderSystem(Camera),
+                new DebugGridSystem(Camera, grid_),
             };
         }
     }

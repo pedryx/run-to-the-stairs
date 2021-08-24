@@ -46,13 +46,15 @@ namespace GameLib
         /// </summary>
         public EntityPool Pool { get; private set; } = new EntityPool();
 
-        public Camera Camera { get; private set; } = new Camera();
+        public Camera Camera { get; private set; }
 
         public ITextureInfoProvider TextureInfoProvider { get; private set; }
 
         public Game(ITextureInfoProvider textureInfoProvider, IMathProvider mathProvider)
         {
+            Camera = new Camera(this);
             EntityManager = new EntityManager(this);
+
             TextureInfoProvider = textureInfoProvider;
             GlobalSettings.MathProvider = mathProvider;
         }

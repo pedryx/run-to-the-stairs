@@ -7,12 +7,8 @@ namespace GameLib.Systems
 {
     public class SpriteRenderSystem : RenderSystem<Transform, Apperance>
     {
-        private readonly Game game_;
-
-        public SpriteRenderSystem(Game game)
-        {
-            game_ = game;
-        }
+        public SpriteRenderSystem(Camera camera)
+            : base(camera) { }
 
         protected override void PreRender(float deltaTime, IRenderer renderer)
         {
@@ -24,19 +20,33 @@ namespace GameLib.Systems
         {
             foreach (var sprite in apperance.Sprites)
             {
-                IMatrix entityTransform = game_.MathProvider.MatrixFromTransform(transform);
-                IMatrix spriteTransform = game_.MathProvider.MatrixFromTransform(sprite.Transform);
+                IMatrix entityTransform = transform.GetMatrix();
+                IMatrix spriteTransform = sprite.Transform.GetMatrix();
+                IMatrix cameraTransform = GetCameraTransform();
 
-                IMatrix word = game_.MathProvider.Concat(entityTransform, spriteTransform);
-                //todo: view matrix
+                IMatrix word = entityTransform.Concat(spriteTransform);
+                IMatrix view = word.Concat(cameraTransform);
 
-                renderer.Render(sprite.Name, word, sprite.Clip);
+                renderer.Render(sprite.Name, view, sprite.Clip);
             }
         }
 
         protected override void PostRender(float deltaTime, IRenderer renderer)
         {
             renderer.EndRender();
+        }
+
+        private IMatrix GetCameraTransform()
+        {
+            switch (Entity.Type)
+            {
+                case EntityType.Game:
+                    return Camera.GameTransform.GetMatrix();
+                case EntityType.UI:
+                    return Camera.UITransform.GetMatrix();
+                default:
+                    return Matrix.GetIdentity();
+            }
         }
     }
 }

@@ -16,7 +16,7 @@ namespace GameLib.Systems
                 float delay = 1 / (animation.FPS * GlobalSettings.GameSpeed);
 
                 animation.EllapsedDelay += deltaTime;
-                if (animation.EllapsedDelay >= delay)
+                while (animation.EllapsedDelay >= delay)
                 {
                     animation.EllapsedDelay -= delay;
                     animation.X++;
