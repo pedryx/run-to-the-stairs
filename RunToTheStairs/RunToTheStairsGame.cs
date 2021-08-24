@@ -1,5 +1,6 @@
 ﻿using GameLib;
 using GameLib.Graphics;
+using GameLib.Math;
 using GameLib.Systems;
 
 using RunToTheStairs.Systems;
@@ -12,25 +13,36 @@ namespace RunToTheStairs
 {
     public class RunToTheStairsGame : Game
     {
-        public RunToTheStairsGame(ITextureInfoProvider textureInfoProvider) 
-            : base(textureInfoProvider) { }
+        private Grid grid_;
+
+        public RunToTheStairsGame(
+            ITextureInfoProvider textureInfoProvider,
+            IMathProvider mathProvider
+         ) 
+            : base(textureInfoProvider, mathProvider) { }
 
         protected override void PreInitialize()
         {
             TypeFinder.RegisterAssembly(GetType().Assembly);
+
+            grid_ = new Grid(new Vector2(10, 10), new Vector2(64), new Vector2(0));
         }
 
         protected override void PostInitialize()
         {
+            var factory = new EntityFactory(this, grid_);
 
+            factory.CreateSkeleton("skeleton1", new Vector2(0, 0));
+            factory.CreateSkeleton("skeleton2", new Vector2(1, 1));
+            factory.CreateSkeleton("skeleton3", new Vector2(2, 2));
         }
 
         protected override IEnumerable<GameSystem> InitializeGameSystems()
         {
             return new List<GameSystem>()
             {
-                new GridSystem(5, 5, 80, 80, Vector2.Zero),
                 new AnimationSystem(),
+                new GridSystem(grid_),
                 new GridAnimationSystem(),
             };
         }
@@ -39,7 +51,7 @@ namespace RunToTheStairs
         {
             return new List<RenderSystem>()
             {
-                new SpriteRenderSystem(),
+                new SpriteRenderSystem(this),
             };
         }
     }

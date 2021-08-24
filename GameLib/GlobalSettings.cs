@@ -1,11 +1,9 @@
-﻿namespace GameLib
+﻿using System;
+
+namespace GameLib
 {
     public static class GlobalSettings
     {
-
-        public static float GameSpeed { get; set; }
-
-        public static float Scale { get; set; }
-
+        public static float GameSpeed { get; set; } = 1;
     }
 }

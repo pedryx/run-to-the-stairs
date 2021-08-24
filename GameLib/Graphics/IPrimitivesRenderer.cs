@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using GameLib.Math;
+
+using System.Drawing;
 using System.Numerics;
 
 
@@ -10,10 +12,10 @@ namespace GameLib
     public interface IPrimitivesRenderer
     {
         void SetColor(Color color);
-        void DrawLine(Vector2 start, Vector2 end, float stroke);
-        void DrawRectangle(Rectangle rectangle, float stroke);
-        void DrawEllipse(Rectangle rectangle, float stroke);
-        void FillRectangle(Rectangle rectangle);
-        void FillEllipse(Rectangle rectangle);
+        void DrawLine(Vector2 start, Vector2 end, float stroke, IMatrix transform);
+        void DrawRectangle(Rectangle rectangle, float stroke, IMatrix transform);
+        void DrawEllipse(Rectangle rectangle, float stroke, IMatrix transform);
+        void FillRectangle(Rectangle rectangle, IMatrix transform);
+        void FillEllipse(Rectangle rectangle, IMatrix transform);
     }
 }

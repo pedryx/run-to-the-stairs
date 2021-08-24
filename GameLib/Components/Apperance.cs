@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Xml.Serialization;
 
 
 namespace GameLib.Components
@@ -8,6 +9,7 @@ namespace GameLib.Components
     /// </summary>
     public class Apperance : IComponent
     {
-        public List<Sprite> Sprites { get; set; }
+        [XmlArrayItem("Sprite")]
+        public List<SpriteDesc> Sprites { get; set; }
     }
 }

@@ -1,10 +1,11 @@
 ﻿using GameLib;
+using GameLib.Math;
 
 using RunToTheStairs.WPF.Managers;
+using RunToTheStairs.WPF.Math;
 
 using SkiaSharp;
 
-using System.Drawing;
 using System.Numerics;
 
 
@@ -40,11 +41,11 @@ namespace RunToTheStairs.WPF
 
         public void EndRender() { }
 
-        public void Render(Sprite sprite, Transform transform, GameLib.Rectangle? clip = null)
+        public void Render(string textureName, IMatrix transform, Rectangle? clip = null)
         {
-            SKBitmap bitmap = textureManager_[sprite.Name];
+            SKBitmap bitmap = textureManager_[textureName];
 
-            canvas_.SetMatrix(CalcTransform(transform, sprite.Transform));
+            canvas_.SetMatrix((SKMatrixWrapper)transform);
             if (clip == null)
             {
                 canvas_.DrawBitmap(bitmap, new SKPoint(0, 0));
@@ -60,52 +61,46 @@ namespace RunToTheStairs.WPF
 
         public IPrimitivesRenderer GetPrimitivesRenderer() => this;
 
-        private static SKMatrix CalcTransform(Transform entitiyTransform, Transform spriteTransform)
-        {
-            SKMatrixWrapper entityMatrix 
-                = (SKMatrixWrapper)entitiyTransform.GetMatrix<SKMatrixWrapper>();
-            SKMatrixWrapper spriteMatrix
-                = (SKMatrixWrapper)spriteTransform.GetMatrix<SKMatrixWrapper>();
-
-            SKMatrixWrapper result = (SKMatrixWrapper)entityMatrix.Multiply(spriteMatrix);
-            return SKMatrix.Concat(result.Matrix, SKMatrix.CreateScale(GlobalSettings.Scale, GlobalSettings.Scale));
-        }
-
-        public void SetColor(Color color)
+        public void SetColor(System.Drawing.Color color)
         {
             DrawColor = new SKColor(color.R, color.G, color.B, color.A);
         }
 
-        public void DrawLine(Vector2 start, Vector2 end, float stroke)
+        public void DrawLine(Vector2 start, Vector2 end, float stroke, IMatrix transform)
         {
             brush_.StrokeWidth = stroke;
             brush_.Style = SKPaintStyle.Stroke;
+            canvas_.SetMatrix((SKMatrixWrapper)transform);
             canvas_.DrawLine(start.X, start.Y, end.X, end.Y, brush_);
         }
 
-        public void DrawRectangle(GameLib.Rectangle rectangle, float stroke)
+        public void DrawRectangle(Rectangle rectangle, float stroke, IMatrix transform)
         {
             brush_.StrokeWidth = stroke;
             brush_.Style = SKPaintStyle.Stroke;
+            canvas_.SetMatrix((SKMatrixWrapper)transform);
             canvas_.DrawRect(rectangle.ToSKRect(), brush_);
         }
 
-        public void DrawEllipse(GameLib.Rectangle rectangle, float stroke)
+        public void DrawEllipse(Rectangle rectangle, float stroke, IMatrix transform)
         {
             brush_.StrokeWidth = stroke;
             brush_.Style = SKPaintStyle.Stroke;
+            canvas_.SetMatrix((SKMatrixWrapper)transform);
             canvas_.DrawOval(rectangle.ToSKRect(), brush_);
         }
 
-        public void FillRectangle(GameLib.Rectangle rectangle)
+        public void FillRectangle(Rectangle rectangle, IMatrix transform)
         {
             brush_.Style = SKPaintStyle.Fill;
+            canvas_.SetMatrix((SKMatrixWrapper)transform);
             canvas_.DrawRect(rectangle.ToSKRect(), brush_);
         }
 
-        public void FillEllipse(GameLib.Rectangle rectangle)
+        public void FillEllipse(Rectangle rectangle, IMatrix transform)
         {
             brush_.Style = SKPaintStyle.Fill;
+            canvas_.SetMatrix((SKMatrixWrapper)transform);
             canvas_.DrawOval(rectangle.ToSKRect(), brush_);
         }
     }

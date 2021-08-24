@@ -7,7 +7,9 @@ namespace RunToTheStairs.WPF
 {
     public static class SkiaExtensions
     {
-
+        /// <summary>
+        /// Convert <see cref="Rectangle"/> to <see cref="SKRect"/>.
+        /// </summary>
         public static SKRect ToSKRect(this Rectangle rectangle) => new()
         {
             Left = rectangle.X,

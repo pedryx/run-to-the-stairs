@@ -1,19 +1,36 @@
-﻿namespace GameLib
+﻿using GameLib.Math;
+
+
+namespace GameLib
 {
     /// <summary>
     /// Represent an interface for renderers.
     /// </summary>
     public interface IRenderer
     {
+        /// <summary>
+        /// Occur before rendering.
+        /// </summary>
         void StartRender();
+
+        /// <summary>
+        /// Occur after rendering.
+        /// </summary>
         void EndRender();
+
+        /// <summary>
+        /// Clear the screen.
+        /// </summary>
         void Clear();
 
         /// <summary>
-        /// Render sprite. Sprite is clipped then transformed then rendered.
+        /// Render texture.
         /// </summary>
-        /// <param name="clip">Clip of the sprite.</param>
-        void Render(Sprite sprite, Transform transform, Rectangle? clip = null);
+        /// <param name="name">Name of the texture to render.</param>
+        /// <param name="matrix">Transformation matrix for texture.</param>
+        /// <param name="clip">Source rectangle of texture.</param>
+        void Render(string name, IMatrix matrix, Rectangle? clip = null);
+
         IPrimitivesRenderer GetPrimitivesRenderer();
     }
 }

@@ -1,5 +1,7 @@
 ﻿using GameLib;
 
+using System.Numerics;
+
 
 namespace RunToTheStairs.Components
 {
@@ -9,14 +11,9 @@ namespace RunToTheStairs.Components
     public class GridEntity : IComponent
     {
         /// <summary>
-        /// Represent a X coor position of entity on the grid.
+        /// Position of tile on which is entity standing.
         /// </summary>
-        public int X { get; set; }
-
-        /// <summary>
-        /// Represent a Y coor position of entity on the grid.
-        /// </summary>
-        public int Y { get; set; }
+        public Vector2 Position { get; set; }
 
         /// <summary>
         /// Represent a direction of movement.

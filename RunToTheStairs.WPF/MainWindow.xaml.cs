@@ -1,4 +1,7 @@
-﻿using RunToTheStairs.WPF.Managers;
+﻿using GameLib;
+
+using RunToTheStairs.WPF.Managers;
+using RunToTheStairs.WPF.Math;
 
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
@@ -42,7 +45,9 @@ namespace RunToTheStairs.WPF
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            game_ = new RunToTheStairsGame(textureManager_);
+            Logger.ShowConsole();
+
+            game_ = new RunToTheStairsGame(textureManager_, new SkiaMathProvider());
             textureManager_.LoadAll();
 
             game_.Initialize();

@@ -12,63 +12,29 @@ namespace RunToTheStairs.Systems
     /// </summary>
     class GridSystem : GameSystem<Transform, GridEntity>
     {
-        /// <summary>
-        /// Number of tiles in each row.
-        /// </summary>
-        public int Width { get; private set; }
+        public Grid Grid { get; private set; }
 
-        /// <summary>
-        /// Number of tiles in each column.
-        /// </summary>
-        public int Height { get; private set; }
-
-        public float TileWidth { get; private set; }
-
-        public float TileHeight { get; private set; }
-
-        /// <summary>
-        /// Position of grid's top-left corner.
-        /// </summary>
-        public Vector2 GridPosition { get; private set; }
-
-        /// <param name="width">Number of tiles in each row.</param>
-        /// <param name="height">Number of tiles in each column.</param>
-        /// <param name="gridPosition">Position of grid's top-left corner.</param>
-        public GridSystem(int width, int height, float tileWidth, float tileHeight,
-            Vector2 gridPosition)
+        public GridSystem(Grid grid)
         {
-            Width = width;
-            Height = height;
-            TileWidth = tileWidth;
-            TileHeight = tileHeight;
-            GridPosition = gridPosition;
+            Grid = grid;
         }
 
         protected override void UpdateItem(float deltaTime,
             Transform transform, GridEntity gridEntity)
         {
-            switch (gridEntity.Movement)
+            gridEntity.Position += gridEntity.Movement switch
             {
-                case Direction.None:
-                    break;
-                case Direction.Up:
-                    gridEntity.Y--;
-                    break;
-                case Direction.Left:
-                    gridEntity.X--;
-                    break;
-                case Direction.Down:
-                    gridEntity.Y++;
-                    break;
-                case Direction.Right:
-                    gridEntity.X++;
-                    break;
-            }
+                Direction.Up => new Vector2(0, -1),
+                Direction.Left => new Vector2(-1, 0),
+                Direction.Down => new Vector2(0, 1),
+                Direction.Right => new Vector2(1, 0),
+                _ => new Vector2(0, 0),
+            };
 
-            transform.Position = GridPosition + new Vector2()
+            transform.Position = Grid.Position + new Vector2()
             {
-                X = TileWidth * gridEntity.X,
-                Y = TileHeight * gridEntity.Y,
+                X = Grid.TileSize.X * gridEntity.Position.X,
+                Y = Grid.TileSize.Y * gridEntity.Position.Y,
             };
         }
     }

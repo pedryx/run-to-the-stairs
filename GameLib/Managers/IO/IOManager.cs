@@ -78,9 +78,12 @@ namespace GameLib.Managers.IO
         /// <param name="path">Path from which will be items loaded.</param>
         public void LoadAll(string path)
         {
+            Console.WriteLine($"{GetType().Name}: Load all.");
+
             if (!Directory.Exists(path))
             {
-                Console.WriteLine($"Directory {path} used as default path for {GetType().Name} dont exist!");
+                Logger.Write($"{GetType().Name}: Directory \"{path}\" used as" +
+                    $" default directory dont exist!");
                 return;
             }
 
@@ -94,7 +97,8 @@ namespace GameLib.Managers.IO
 
                 if (items_.ContainsKey(name))
                 {
-                    Console.WriteLine($"Manager alread loaded item with this name: {name}!");
+                    Logger.Write($"{GetType().Name}: Item with name \"{name}\" already" +
+                        $" loaded!");
                     continue;
                 }
 
@@ -105,11 +109,14 @@ namespace GameLib.Managers.IO
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Logger.Write($"{GetType().Name}: Error while loading item with name" +
+                        $" \"{name}\":\n" + ex.Message);
                     continue;
                 }
                 items_.Add(name, item);
             }
+
+            LoadedAll();
         }
 
         /// <summary>

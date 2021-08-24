@@ -5,11 +5,9 @@ VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLib", "GameLib\GameLib.csproj", "{362EC940-99D3-4190-85F7-E318AB8631CA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLib.UnitTests", "GameLib.UnitTests\GameLib.UnitTests.csproj", "{562F46A2-2782-4697-8947-5055F58E7333}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RunToTheStairs", "RunToTheStairs\RunToTheStairs.csproj", "{3A23D1E1-D634-490E-A3C8-37C36B355ED8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunToTheStairs", "RunToTheStairs\RunToTheStairs.csproj", "{3A23D1E1-D634-490E-A3C8-37C36B355ED8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunToTheStairs.WPF", "RunToTheStairs.WPF\RunToTheStairs.WPF.csproj", "{F134E8BB-D159-4898-8C9F-30B6166A814E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RunToTheStairs.WPF", "RunToTheStairs.WPF\RunToTheStairs.WPF.csproj", "{F134E8BB-D159-4898-8C9F-30B6166A814E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +19,6 @@ Global
 		{362EC940-99D3-4190-85F7-E318AB8631CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{362EC940-99D3-4190-85F7-E318AB8631CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{362EC940-99D3-4190-85F7-E318AB8631CA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{562F46A2-2782-4697-8947-5055F58E7333}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{562F46A2-2782-4697-8947-5055F58E7333}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{562F46A2-2782-4697-8947-5055F58E7333}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{562F46A2-2782-4697-8947-5055F58E7333}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3A23D1E1-D634-490E-A3C8-37C36B355ED8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3A23D1E1-D634-490E-A3C8-37C36B355ED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A23D1E1-D634-490E-A3C8-37C36B355ED8}.Release|Any CPU.ActiveCfg = Release|Any CPU

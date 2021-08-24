@@ -1,8 +1,10 @@
 ﻿using GameLib.Graphics;
 using GameLib.Managers.IO;
+using GameLib.Math;
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 
 
@@ -46,10 +48,13 @@ namespace GameLib
 
         public ITextureInfoProvider TextureInfoProvider { get; private set; }
 
-        public Game(ITextureInfoProvider textureInfoProvider)
+        public IMathProvider MathProvider { get; private set; }
+
+        public Game(ITextureInfoProvider textureInfoProvider, IMathProvider mathProvider)
         {
             EntityManager = new EntityManager(this);
             TextureInfoProvider = textureInfoProvider;
+            MathProvider = mathProvider;
         }
 
         #region Initialization
@@ -69,12 +74,19 @@ namespace GameLib
 
         public void Initialize()
         {
+            // pre initialization phase
             PreInitialize();
+
+            // initialization phase
             gameSystems_ = InitializeGameSystems();
             renderSystems_ = InitializeRenderSystems();
             TypeFinder.Search();
-
             EntityManager.LoadAll();
+
+            // post initialization phase
+            PostInitialize();
+
+            // association phase
             foreach (var system in gameSystems_)
             {
                 system.Associate(Pool);
@@ -84,7 +96,7 @@ namespace GameLib
                 system.Associate(Pool);
             }
 
-            PostInitialize();
+            Logger.Write("Game initialized.");
         }
         #endregion
 

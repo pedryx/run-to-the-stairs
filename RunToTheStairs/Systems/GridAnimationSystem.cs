@@ -11,7 +11,8 @@ namespace RunToTheStairs.Systems
         protected override void UpdateItem(float deltaTime,
             GridEntity gridEntity, Animation animation)
         {
-            animation.Y = (int)gridEntity.Movement - 1;
+            if (gridEntity.Movement != Direction.None)
+                animation.Y = (int)gridEntity.Movement - 1;
         }
     }
 }

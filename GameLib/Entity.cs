@@ -14,9 +14,12 @@ namespace GameLib
         private readonly IterableDictionary<Type, IComponent> components_ = new();
 
         /// <summary>
-        /// Determine if entitiy should be added to default entitiy pool after loaded from file.
+        /// Determine if entitiy should be added to default entitiy pool after loaded
+        /// from file.
         /// </summary>
         internal bool AddToPool { get; private set; }
+
+        public EntityType Type { get; private set; }
 
         /// <summary>
         /// Occur when new component is added.
@@ -28,9 +31,14 @@ namespace GameLib
         public event ComponentEventHandler OnRemove;
 
         public Entity()
+            : this(EntityType.Game) { }
+
+        public Entity(EntityType type)
         {
             components_.OnAdd += Components_OnAdd;
             components_.OnRemove += Components_OnRemove;
+
+            Type = type;
         }
 
         public T Get<T>()
@@ -73,29 +81,14 @@ namespace GameLib
         public void Update()
             => components_.Update();
 
-        /// <summary>
-        /// Clone entity by making shallow copy of each component on entitiy.
-        /// In cloning of components only properties are copied and properties
-        /// with attribute <see cref="XmlIgnoreAttribute"/> are ignored.
-        /// </summary>
-        /// <returns>Cloned entity.</returns>
         public Entity Clone()
         {
             var entity = new Entity();
-            foreach (var component in components_)
+            foreach (var component in components_.Values)
             {
-                Type type = component.GetType();
-                IComponent clone = (IComponent)Activator.CreateInstance(type);
-
-                foreach (var property in type.GetProperties())
-                {
-                    if (Attribute.IsDefined(property, typeof(XmlIgnoreAttribute)))
-                        continue;
-
-                    object value = property.GetValue(component);
-                    property.SetValue(clone, value);
-                }
+                entity.Add(CloneMaker.Clone(component));
             }
+            entity.Update();
 
             return entity;
         }
@@ -117,31 +110,21 @@ namespace GameLib
 
         public void ReadXml(XmlReader reader)
         {
-            string attributeValue = reader.GetAttribute("AddToPool");
-
-            if (attributeValue != null)
-            {
-                if (bool.TryParse(attributeValue, out bool value))
-                {
-                    AddToPool = value;
-                }
-                else
-                {
-                    Console.WriteLine($"Value \"{reader.Value}\" on " +
-                        $"attribute {reader.Name} cannot be parsed to bool!");
-                }
-            }
+            ReadAddToPoolAttribute(reader);
+            ReadTypeAttribute(reader);
 
             reader.Read();
             while (reader.Depth != 0)
             {
-                if (!TypeFinder.ComponentTypes.ContainsKey(reader.Name))
+                string componentName = reader.Name;
+
+                if (!TypeFinder.ComponentTypes.ContainsKey(componentName))
                 {
-                    Console.WriteLine($"Could not find component with the name \"{reader.Name}\"");
+                    Logger.Write($"Could not find component with name {componentName}!");
                     continue;
                 }
 
-                Type type = TypeFinder.ComponentTypes[reader.Name];
+                Type type = TypeFinder.ComponentTypes[componentName];
                 IComponent component = (IComponent)new XmlSerializer(type).Deserialize(reader);
 
                 if (component == null)
@@ -158,5 +141,42 @@ namespace GameLib
                 new XmlSerializer(component.GetType()).Serialize(writer, component);
             }
         }
+
+        private void ReadAddToPoolAttribute(XmlReader reader)
+        {
+            string attributeValue = reader.GetAttribute("AddToPool");
+
+            if (attributeValue == null)
+                return;
+
+            if (bool.TryParse(attributeValue, out bool value))
+            {
+                AddToPool = value;
+            }
+            else
+            {
+                Logger.Write($"Value \"{reader.Value}\" on " +
+                    $"attribute {reader.Name} cannot be parsed!");
+            }
+        }
+
+        private void ReadTypeAttribute(XmlReader reader)
+        {
+            string attributeValue = reader.GetAttribute("Type");
+
+            if (attributeValue == null)
+                return;
+
+            if (Enum.TryParse(attributeValue, out EntityType value))
+            {
+                Type = value;
+            }
+            else
+            {
+                Logger.Write($"Value \"{reader.Value}\" on " +
+                    $"attribute {reader.Name} cannot be parsed!");
+            }
+        }
+
     }
 }

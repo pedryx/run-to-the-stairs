@@ -15,6 +15,14 @@ namespace GameLib.Managers.IO
             game_ = game;
         }
 
+        protected override void LoadedAll()
+        {
+            foreach (var entity in Items.Values)
+            {
+                entity.Update();
+            }
+        }
+
         public override Entity Load(string name, string file)
         {
             var serializer = new XmlSerializer(typeof(Entity));

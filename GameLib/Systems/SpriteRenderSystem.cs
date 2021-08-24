@@ -1,10 +1,18 @@
 ﻿using GameLib.Components;
+using GameLib.Math;
 
 
 namespace GameLib.Systems
 {
     public class SpriteRenderSystem : RenderSystem<Transform, Apperance>
     {
+        private readonly Game game_;
+
+        public SpriteRenderSystem(Game game)
+        {
+            game_ = game;
+        }
+
         protected override void PreRender(float deltaTime, IRenderer renderer)
         {
             renderer.StartRender();
@@ -15,7 +23,13 @@ namespace GameLib.Systems
         {
             foreach (var sprite in apperance.Sprites)
             {
-                renderer.Render(sprite, transform, sprite.Clip);
+                IMatrix entityTransform = game_.MathProvider.MatrixFromTransform(transform);
+                IMatrix spriteTransform = game_.MathProvider.MatrixFromTransform(transform);
+
+                IMatrix word = game_.MathProvider.Concat(entityTransform, spriteTransform);
+                //todo: view matrix
+
+                renderer.Render(sprite.Name, word, sprite.Clip);
             }
         }
 
