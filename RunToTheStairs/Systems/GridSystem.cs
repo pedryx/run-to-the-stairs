@@ -22,6 +22,21 @@ namespace RunToTheStairs.Systems
         protected override void UpdateItem(float deltaTime,
             Transform transform, GridEntity gridEntity)
         {
+            if (GlobalSettings.WaitingForInput)
+                return;
+
+            gridEntity.Ellapsed += deltaTime;
+            float timePerTile = 1 / gridEntity.Speed;
+            bool move = false;
+            while (gridEntity.Ellapsed >= timePerTile)
+            {
+                gridEntity.Ellapsed -= timePerTile;
+                move = true;
+            }
+
+            if (!move)
+                return;
+
             gridEntity.Position += gridEntity.Movement switch
             {
                 Direction.Up => new Vector2(0, -1),

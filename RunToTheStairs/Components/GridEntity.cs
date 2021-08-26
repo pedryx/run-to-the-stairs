@@ -1,6 +1,7 @@
 ﻿using GameLib;
 
 using System.Numerics;
+using System.Xml.Serialization;
 
 
 namespace RunToTheStairs.Components
@@ -18,6 +19,18 @@ namespace RunToTheStairs.Components
         /// <summary>
         /// Represent a direction of movement.
         /// </summary>
-        public Direction Movement { get; set; }
+        [XmlIgnore]
+        public Direction Movement { get; set; } = Direction.None;
+
+        /// <summary>
+        /// Number of tiles per second.
+        /// </summary>
+        public float Speed { get; set; }
+
+        /// <summary>
+        /// Number of seconds ellapsed from last movement.
+        /// </summary>
+        [XmlIgnore]
+        public float Ellapsed { get; set; }
     }
 }
