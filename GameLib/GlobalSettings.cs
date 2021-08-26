@@ -14,5 +14,11 @@ namespace GameLib
 
         [XmlIgnore]
         internal static IMathProvider MathProvider { get; set; }
+
+        /// <summary>
+        /// Determine if game is waiting for player input.
+        /// </summary>
+        [XmlIgnore]
+        public static bool WaitingForInput { get; set; }
     }
 }
