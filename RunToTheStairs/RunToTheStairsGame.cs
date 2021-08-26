@@ -30,13 +30,11 @@ namespace RunToTheStairs
 
         protected override void PostInitialize()
         {
-            var factory = new EntityFactory(this, grid_);
+            GridGenerator generator = new GridGenerator(this, grid_);
 
-            var skeleton1 = factory.CreateSkeleton("skeleton1", new Vector2(0, 0));
-            var skeleton2 = factory.CreateSkeleton("skeleton2", new Vector2(2, 2));
-            var skeleton3 = factory.CreateSkeleton("skeleton3", new Vector2(4, 4));
+            var player = generator.SpawnEntities();
 
-            Camera.Follow(skeleton2);
+            Camera.Follow(player);
         }
 
         protected override IEnumerable<GameSystem> InitializeGameSystems()

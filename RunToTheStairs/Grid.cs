@@ -21,6 +21,14 @@ namespace RunToTheStairs
         /// </summary>
         public Vector2 Position { get; private set; }
 
+        /// <summary>
+        /// Represent a total size of a grid in pixels.
+        /// </summary>
+        public Vector2 TotalSize
+        {
+            get => TileSize * Size;
+        }
+
         /// <param name="size">Number of tiles in width and height.</param>
         /// <param name="tileSiae">Size of one tile.</param>
         /// <param name="position">Position of top-left corner.</param>

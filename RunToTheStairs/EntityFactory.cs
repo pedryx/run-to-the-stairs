@@ -28,7 +28,7 @@ namespace RunToTheStairs
         /// <param name="name">Name of the entiity.</param>
         /// <param name="position">Position in grid.</param>
         /// <returns>Created skeleton entity.</returns>
-        public Entity CreateSkeleton(string name, Vector2 position)
+        public Entity CreateSkeleton(string name, Vector2 position, float speed)
         {
             Entity skeleton = game_.EntityManager["skeleton"].Clone();
 
@@ -47,6 +47,14 @@ namespace RunToTheStairs
 
             var gridEntity = skeleton.Get<GridEntity>();
             gridEntity.Position = position;
+            gridEntity.Speed = speed;
+
+            var transform = skeleton.Get<Transform>();
+            transform.Position = grid_.Position + new Vector2()
+            {
+                X = grid_.TileSize.X * gridEntity.Position.X,
+                Y = grid_.TileSize.Y * gridEntity.Position.Y,
+            };
 
             game_.Pool.Add(name, skeleton);
 
