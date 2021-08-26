@@ -2,7 +2,6 @@
 using GameLib.Graphics;
 using GameLib.Math;
 
-using RunToTheStairs.WPF.Managers;
 using RunToTheStairs.WPF.Math;
 
 using SkiaSharp;

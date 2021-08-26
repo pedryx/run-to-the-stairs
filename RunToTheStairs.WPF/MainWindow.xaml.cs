@@ -1,6 +1,5 @@
 ﻿using GameLib;
 
-using RunToTheStairs.WPF.Managers;
 using RunToTheStairs.WPF.Math;
 
 using SkiaSharp;
@@ -32,7 +31,7 @@ namespace RunToTheStairs.WPF
     {
         private readonly TextureManager textureManager_ = new();
         private readonly object gameLoopLock_ = new();
-        private readonly SKColor clearColor_ = SKColors.SkyBlue;
+        private readonly SKColor clearColor_ = SKColors.Green;
 
         private RunToTheStairsGame game_;
 

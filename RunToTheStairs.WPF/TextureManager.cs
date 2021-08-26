@@ -5,7 +5,7 @@ using SkiaSharp;
 
 using System.Numerics;
 
-namespace RunToTheStairs.WPF.Managers
+namespace RunToTheStairs.WPF
 {
     public class TextureManager : IOManager<SKBitmap>, ITextureInfoProvider
     {
