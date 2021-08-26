@@ -46,6 +46,7 @@ namespace RunToTheStairs
                 new AnimationSystem(),
                 new GridSystem(grid_),
                 new GridAnimationSystem(),
+                new GridAISystem(),
             };
         }
 
