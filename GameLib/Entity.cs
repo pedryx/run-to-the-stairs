@@ -116,11 +116,11 @@ namespace GameLib
             reader.Read();
             while (reader.Depth != 0)
             {
-                string componentName = reader.Name;
+                string componentName = reader.Name.ToLower();
 
                 if (!TypeFinder.ComponentTypes.ContainsKey(componentName))
                 {
-                    Logger.Write($"Could not find component with name {componentName}!");
+                    Logger.Write($"Could not find component with name {reader.Name}!");
                     continue;
                 }
 
