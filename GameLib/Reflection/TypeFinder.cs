@@ -43,7 +43,7 @@ namespace GameLib
                 foreach (var type in assembly.GetExportedTypes())
                 {
                     if (type.GetInterfaces().Contains(typeof(IComponent)))
-                        componentTypes_.Add(type.Name, type);
+                        componentTypes_.Add(type.Name.ToLower(), type);
                 }
             }
         }
