@@ -14,12 +14,18 @@ namespace RunToTheStairs
     public class RunToTheStairsGame : Game
     {
         private Grid grid_;
+        private IApperanceProvider apperanceProvider_;
 
-        public RunToTheStairsGame(
+        public RunToTheStairsGame
+        (
             ITextureInfoProvider textureInfoProvider,
-            IMathProvider mathProvider
-         ) 
-            : base(textureInfoProvider, mathProvider) { }
+            IMathProvider mathProvider,
+            IApperanceProvider apperanceProvider
+        ) 
+            : base(textureInfoProvider, mathProvider) 
+        {
+            apperanceProvider_ = apperanceProvider;
+        }
 
         protected override void PreInitialize()
         {
@@ -30,7 +36,7 @@ namespace RunToTheStairs
 
         protected override void PostInitialize()
         {
-            GridGenerator generator = new GridGenerator(this, grid_);
+            GridGenerator generator = new GridGenerator(this, grid_, apperanceProvider_);
 
             var player = generator.SpawnEntities();
 

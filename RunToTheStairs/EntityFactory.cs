@@ -15,11 +15,13 @@ namespace RunToTheStairs
     {
         private readonly Game game_;
         private readonly Grid grid_;
+        private readonly IApperanceProvider provider_;
 
-        public EntityFactory(Game game, Grid grid)
+        public EntityFactory(Game game, Grid grid, IApperanceProvider provider)
         {
             game_ = game;
             grid_ = grid;
+            provider_ = provider;
         }
 
         /// <summary>
@@ -28,12 +30,14 @@ namespace RunToTheStairs
         /// <param name="name">Name of the entiity.</param>
         /// <param name="position">Position in grid.</param>
         /// <returns>Created skeleton entity.</returns>
-        public Entity CreateSkeleton(string name, Vector2 position, float speed)
+        public Entity CreateGridEntity(string name, Vector2 position, float speed)
         {
-            Entity skeleton = game_.EntityManager["skeleton"].Clone();
+            Entity entity = game_.EntityManager["gridEntity"].Clone();
 
-            var apperance = skeleton.Get<Apperance>();
-            var animation = skeleton.Get<Animation>();
+            var apperance = provider_.GetEntityApperance();
+            entity.Add(apperance);
+
+            var animation = entity.Get<Animation>();
             foreach (var sprite in apperance.Sprites)
             {
                 Vector2 size = animation.TileSize;
@@ -45,20 +49,21 @@ namespace RunToTheStairs
                 };
             }
 
-            var gridEntity = skeleton.Get<GridEntity>();
+            var gridEntity = entity.Get<GridEntity>();
             gridEntity.Position = position;
             gridEntity.Speed = speed;
 
-            var transform = skeleton.Get<Transform>();
+            var transform = entity.Get<Transform>();
             transform.Position = grid_.Position + new Vector2()
             {
                 X = grid_.TileSize.X * gridEntity.Position.X,
                 Y = grid_.TileSize.Y * gridEntity.Position.Y,
             };
 
-            game_.Pool.Add(name, skeleton);
+            entity.Update();
+            game_.Pool.Add(name, entity);
 
-            return skeleton;
+            return entity;
         }
     }
 }

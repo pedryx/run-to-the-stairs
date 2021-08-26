@@ -53,7 +53,11 @@ namespace RunToTheStairs.WPF
                 Y = (float)gameCanvas.RenderSize.Height,
             };
 
-            game_ = new RunToTheStairsGame(textureManager_, new SkiaMathProvider());
+            game_ = new RunToTheStairsGame(
+                textureManager_,
+                new SkiaMathProvider(),
+                new ApperanceProvider()
+            );
             textureManager_.LoadAll();
 
             game_.Initialize();
