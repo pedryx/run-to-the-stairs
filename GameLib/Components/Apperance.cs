@@ -12,6 +12,6 @@ namespace GameLib.Components
     public class Apperance : IComponent
     {
         [XmlArrayItem("Sprite")]
-        public List<SpriteDesc> Sprites { get; set; }
+        public List<SpriteDesc> Sprites { get; set; } = new List<SpriteDesc>();
     }
 }
