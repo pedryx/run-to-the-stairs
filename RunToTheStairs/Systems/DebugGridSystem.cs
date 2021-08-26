@@ -1,6 +1,5 @@
 ﻿using GameLib;
 using GameLib.Graphics;
-using GameLib.Math;
 
 using System.Numerics;
 
@@ -11,7 +10,7 @@ namespace RunToTheStairs.Systems
     {
         private readonly Grid grid_;
 
-        public int Stroke { get; set; } = 1;
+        public int Stroke { get; set; } = 5;
 
         public DebugGridSystem(Camera camera, Grid grid)
             : base(camera)
@@ -29,7 +28,7 @@ namespace RunToTheStairs.Systems
 
                 primitivesRenderer.DrawLine(
                     new Vector2(x, 0),
-                    new Vector2(x, GlobalSettings.Resolution.Y),
+                    new Vector2(x, grid_.TotalSize.Y),
                     Stroke,
                     Camera.GameTransform.GetMatrix()
                 );
@@ -41,7 +40,7 @@ namespace RunToTheStairs.Systems
 
                 primitivesRenderer.DrawLine(
                     new Vector2(0, y),
-                    new Vector2(GlobalSettings.Resolution.X, y),
+                    new Vector2(grid_.TotalSize.X, y),
                     Stroke,
                     Camera.GameTransform.GetMatrix()
                 );
