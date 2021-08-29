@@ -6,7 +6,7 @@ using System.Numerics;
 
 namespace RunToTheStairs.Systems
 {
-    class DebugGridSystem : RenderSystem
+    public class DebugGridSystem : RenderSystem
     {
         private readonly Grid grid_;
 

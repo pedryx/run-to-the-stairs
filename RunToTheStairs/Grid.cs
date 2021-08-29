@@ -3,7 +3,7 @@
 
 namespace RunToTheStairs
 {
-    class Grid
+    public class Grid
     {
 
         /// <summary>
