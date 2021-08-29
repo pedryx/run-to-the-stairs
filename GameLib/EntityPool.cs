@@ -21,17 +21,23 @@ namespace GameLib
         /// </summary>
         public event EntityEventHandler OnRemove;
 
+        /// <summary>
+        /// Get entity with specific name.
+        /// </summary>
+        public Entity this[string name]
+        {
+            get => entities_[name];
+        }
+
         public EntityPool()
         {
             entities_.OnAdd += Entities_OnAdd;
             entities_.OnRemove += Entities_OnRemove;
         }
 
-        public Entity this[string name]
-        {
-            get => entities_[name];
-        }
-
+        /// <summary>
+        /// Determine if pool contains entity with specific name.
+        /// </summary>
         public bool Contains(string name)
             => entities_.ContainsKey(name);
 
