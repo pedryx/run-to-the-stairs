@@ -4,7 +4,6 @@ using GameLib.Math;
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading;
 
 
@@ -25,6 +24,9 @@ namespace GameLib
     /// </remarks>
     public abstract class Game
     {
+        private readonly IterableDictionary<Type, GameSystem> gameSystems_ = new();
+        private readonly IterableDictionary<Type, RenderSystem> renderSystems_ = new();
+
         /// <summary>
         /// Date and time of prevous call of <see cref="CalcDeltaTime(float)"/>.
         /// </summary>
@@ -33,8 +35,6 @@ namespace GameLib
         /// Determine if next call of <see cref="Render(float)"/> should be skipped.
         /// </summary>
         private bool skipRender_;
-        private IEnumerable<GameSystem> gameSystems_;
-        private IEnumerable<RenderSystem> renderSystems_;
 
         /// <summary>
         /// Default entity manager.
@@ -59,7 +59,7 @@ namespace GameLib
             GlobalSettings.MathProvider = mathProvider;
         }
 
-        #region Initialization
+        #region Initialization and system methods
         protected abstract IEnumerable<GameSystem> InitializeGameSystems();
 
         protected abstract IEnumerable<RenderSystem> InitializeRenderSystems();
@@ -80,26 +80,58 @@ namespace GameLib
             PreInitialize();
 
             // initialization phase
-            gameSystems_ = InitializeGameSystems();
-            renderSystems_ = InitializeRenderSystems();
+            foreach (var system in InitializeGameSystems())
+            {
+                gameSystems_.Add(system.GetType(), system);
+            }
+            foreach (var system in InitializeRenderSystems())
+            {
+                renderSystems_.Add(system.GetType(), system);
+            }
             TypeFinder.Search();
             EntityManager.LoadAll();
 
             // post initialization phase
             PostInitialize();
 
-            // association phase
-            foreach (var system in gameSystems_)
-            {
-                system.Associate(Pool);
-            }
-            foreach (var system in renderSystems_)
-            {
-                system.Associate(Pool);
-            }
+            gameSystems_.OnAdd += GameSystems_OnAdd;
+            gameSystems_.OnRemove += GameSystems_OnRemove;
+            renderSystems_.OnAdd += RenderSystems_OnAdd;
+            renderSystems_.OnRemove += RenderSystems_OnRemove;
+
+            gameSystems_.Update();
+            renderSystems_.Update();
 
             Logger.Write("Game initialized.");
         }
+
+        private void GameSystems_OnAdd(object sender, KeyValuePairEventArgs<Type, GameSystem> e)
+            => e.Value.Associate(Pool);
+
+        private void GameSystems_OnRemove(object sender, KeyValuePairEventArgs<Type, GameSystem> e)
+            => e.Value.Unassociate(Pool);
+
+        private void RenderSystems_OnAdd(object sender, KeyValuePairEventArgs<Type, RenderSystem> e)
+            => e.Value.Associate(Pool);
+
+        private void RenderSystems_OnRemove(object sender, KeyValuePairEventArgs<Type, RenderSystem> e)
+            => e.Value.Unassociate(Pool);
+
+        public void AddGameSystem<T>(T system)
+            where T : GameSystem
+            => gameSystems_.Add(typeof(T), system);
+
+        public void RemoveGameSystem<T>()
+            where T : GameSystem
+            => gameSystems_.Remove(typeof(T));
+
+        public void AddRenderSystem<T>(T system)
+            where T : RenderSystem
+            => renderSystems_.Add(typeof(T), system);
+
+        public void RemoveRenderSystem<T>()
+            where T : RenderSystem
+            => renderSystems_.Remove(typeof(T));
         #endregion
 
         /// <summary>
@@ -143,10 +175,12 @@ namespace GameLib
         /// <param name="deltaTime">Time ellapsed between previous and current frame.</param>
         public void Update(float deltaTime)
         {
-            foreach (var system in gameSystems_)
+            foreach (var system in gameSystems_.Values)
             {
                 system.Update(deltaTime);
             }
+
+            gameSystems_.Update();
             Pool.Update();
             Camera.Update();
         }
@@ -165,10 +199,12 @@ namespace GameLib
             }
 
             renderer.Clear();
-            foreach (var system in renderSystems_)
+            foreach (var system in renderSystems_.Values)
             {
                 system.Render(deltaTime, renderer);
             }
+
+            renderSystems_.Update();
         }
 
     }
