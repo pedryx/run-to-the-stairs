@@ -20,7 +20,13 @@ namespace RunToTheStairs.Components
         /// Represent a direction of movement.
         /// </summary>
         [XmlIgnore]
-        public Direction Movement { get; set; } = Direction.None;
+        public Direction Movement { get; set; }
+
+        /// <summary>
+        /// Determine if entity will move during this iteration.
+        /// </summary>
+        [XmlIgnore]
+        public bool Move { get; set; }
 
         /// <summary>
         /// Number of tiles per second.
@@ -28,7 +34,13 @@ namespace RunToTheStairs.Components
         public float Speed { get; set; }
 
         /// <summary>
-        /// Number of seconds ellapsed from last movement.
+        /// Time in seconds which remeains until next move.
+        /// </summary>
+        [XmlIgnore]
+        public float ReamingTime { get; set; }
+
+        /// <summary>
+        /// Number of seconds ellapsed from the start of movement.
         /// </summary>
         [XmlIgnore]
         public float Ellapsed { get; set; }

@@ -54,11 +54,11 @@ namespace RunToTheStairs.WPF
             "BODY_skeleton_walk"
 ,       };
 
-        private Random random_ = new Random();
+        private readonly Random random_ = new();
 
         public Apperance GetEntityApperance()
         {
-            Apperance apperance = new Apperance();
+            var apperance = new Apperance();
 
             CreateRandomOrNone(apperance, bodies, false);
             CreateRandomOrNone(apperance, feets);

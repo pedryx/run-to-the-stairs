@@ -13,16 +13,18 @@ namespace RunToTheStairs
 {
     public class RunToTheStairsGame : Game
     {
-        private Grid grid_;
-        private IApperanceProvider apperanceProvider_;
+        private readonly IApperanceProvider apperanceProvider_;
+        private readonly GridPlayerSystem gridPlayerSystem_ = new();
+
+        public Grid Grid { get; private set; }
 
         public RunToTheStairsGame
         (
             ITextureInfoProvider textureInfoProvider,
             IMathProvider mathProvider,
             IApperanceProvider apperanceProvider
-        ) 
-            : base(textureInfoProvider, mathProvider) 
+        )
+            : base(textureInfoProvider, mathProvider)
         {
             apperanceProvider_ = apperanceProvider;
         }
@@ -30,13 +32,14 @@ namespace RunToTheStairs
         protected override void PreInitialize()
         {
             TypeFinder.RegisterAssembly(GetType().Assembly);
+            GlobalSettings.WaitingForInput = true;
 
-            grid_ = new Grid(new Vector2(10, 10), new Vector2(64), new Vector2(0));
+            Grid = new Grid(new Vector2(10, 10), new Vector2(64), new Vector2(0));
         }
 
         protected override void PostInitialize()
         {
-            GridGenerator generator = new GridGenerator(this, grid_, apperanceProvider_);
+            var generator = new GridGenerator(this, Grid, apperanceProvider_);
 
             var player = generator.SpawnEntities();
 
@@ -45,12 +48,14 @@ namespace RunToTheStairs
 
         protected override IEnumerable<GameSystem> InitializeGameSystems()
         {
+
             return new List<GameSystem>()
             {
                 new AnimationSystem(),
-                new GridSystem(grid_),
+                new GridSystem(Grid),
                 new GridAnimationSystem(),
                 new GridAISystem(),
+                gridPlayerSystem_,
             };
         }
 
@@ -59,8 +64,10 @@ namespace RunToTheStairs
             return new List<RenderSystem>()
             {
                 new SpriteRenderSystem(Camera),
-                new DebugGridSystem(Camera, grid_),
             };
         }
+
+        public void MovePlayer(Direction direction)
+            => gridPlayerSystem_.SetMove(direction);
     }
 }

@@ -7,8 +7,8 @@ namespace RunToTheStairs
 {
     class GridGenerator
     {
-        private EntityFactory factory_;
-        private Grid grid_;
+        private readonly EntityFactory factory_;
+        private readonly Grid grid_;
 
         public GridGenerator(Game game, Grid grid, IApperanceProvider provider)
         {
@@ -22,8 +22,20 @@ namespace RunToTheStairs
         /// <returns>Player entity.</returns>
         public Entity SpawnEntities()
         {
-            var skeletonSlow = factory_.CreateGridEntity("skeletonSlow", new Vector2(0, 0), 1);
-            var skeletonFast = factory_.CreateGridEntity("skeletonFast", new Vector2(0, 1), 2);
+            //var skeletonSlow = factory_.CreateGridEntity("skeletonSlow", new Vector2(0, 0), 1);
+            var skeletonFast = factory_.CreateGridEntity
+            (
+                "skeletonFast",
+                new Vector2(0, 1),
+                2,
+                true
+            );
+            var skeletonSlow = factory_.CreateGridEntity
+            (
+                "skeletonSlow",
+                new Vector2(0, 0),
+                1
+            );
 
             return skeletonFast;
         }

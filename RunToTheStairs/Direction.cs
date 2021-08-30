@@ -10,5 +10,9 @@
         Left,
         Down,
         Right,
+        UpLeft,
+        UpRight,
+        DownLeft,
+        DownRight,
     }
 }
