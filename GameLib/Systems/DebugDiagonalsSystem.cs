@@ -6,9 +6,12 @@ using System.Numerics;
 
 namespace GameLib.Systems
 {
-    public class DebugDiagonalSystem : RenderSystem
+    public class DebugDiagonalsSystem : RenderSystem
     {
-        public DebugDiagonalSystem(Camera camera) 
+
+        public float Stroke { get; set; } = 5;
+
+        public DebugDiagonalsSystem(Camera camera) 
             : base(camera) { }
 
         public override void Render(float deltaTime, IRenderer renderer)
@@ -18,14 +21,14 @@ namespace GameLib.Systems
             primitivesRenderer.DrawLine(
                 Vector2.Zero,
                 GlobalSettings.Resolution,
-                1,
+                Stroke,
                 Matrix.GetIdentity()
             );
             
             primitivesRenderer.DrawLine(
                 new Vector2(GlobalSettings.Resolution.X, 0),
                 new Vector2(0, GlobalSettings.Resolution.Y),
-                1,
+                Stroke,
                 Matrix.GetIdentity()
             );
         }

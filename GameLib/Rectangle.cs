@@ -1,4 +1,6 @@
-﻿namespace GameLib
+﻿using System.Numerics;
+
+namespace GameLib
 {
     /// <summary>
     /// Represent an rectangle.
@@ -18,6 +20,10 @@
         public float Width { get; set; }
 
         public float Height { get; set; }
+
+        public Vector2 Position => new(X, Y);
+
+        public Vector2 Size => new(Width, Height);
 
     }
 }

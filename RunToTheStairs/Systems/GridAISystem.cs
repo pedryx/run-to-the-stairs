@@ -15,10 +15,10 @@ namespace RunToTheStairs.Systems
         protected override void UpdateItem(float deltaTime,
             GridEntity gridEntity, GridAI gridAI)
         {
-            if (!gridEntity.Move)
+            if (!gridEntity.CanMove)
             {
                 gridEntity.Movement = GetMove(gridEntity.Position);
-                gridEntity.Move = true;
+                gridEntity.CanMove = true;
             }
         }
 

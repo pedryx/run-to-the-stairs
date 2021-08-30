@@ -25,7 +25,7 @@ namespace RunToTheStairs.Systems
             if (move_)
             {
                 gridEntity.Movement = direction_;
-                gridEntity.Move = true;
+                gridEntity.CanMove = true;
                 move_ = false;
             }
         }

@@ -4,7 +4,6 @@ using Priority_Queue;
 
 using RunToTheStairs.Components;
 
-using System;
 using System.Numerics;
 
 
@@ -43,15 +42,17 @@ namespace RunToTheStairs.Systems
                 return;
             if (currentEntity_ == null)
                 GetCurrentEntity();
-            if (!currentGridEntity_.Move)
+            if (!currentGridEntity_.CanMove)
                 return;
 
-            if (currentGridEntity_.Move)
+            if (currentGridEntity_.CanMove)
             {
                 float delay = TurnLength / Entities.Count;
                 currentGridEntity_.Ellapsed += deltaTime;
 
-                UpdateDistance(delay);
+                if (currentGridEntity_.Ellapsed != deltaTime)
+                    UpdateDistance(delay);
+
                 if (currentGridEntity_.Ellapsed >= delay)
                 {
                     currentGridEntity_.Ellapsed = 0;
@@ -69,25 +70,27 @@ namespace RunToTheStairs.Systems
             currentTransform_ = currentEntity_.Get<Transform>();
             startPos_ = currentTransform_.Position;
             entitiesQueue_.Dequeue();
+
+            currentGridEntity_.Moving = true;
         }
 
         private void UpdateDistance(float delay)
         {
             float progress = currentGridEntity_.Ellapsed / delay;
-            Vector2 movement = DirectionToVector(currentGridEntity_.Movement);
+            Vector2 movement = Grid.DirectionToVector(currentGridEntity_.Movement);
             Vector2 distance = movement * progress * Grid.TileSize;
             currentTransform_.Position = startPos_ + distance;
         }
 
         private void SetPosition()
         {
-            currentGridEntity_.Position += DirectionToVector(currentGridEntity_.Movement);
+            currentGridEntity_.Position += Grid.DirectionToVector(currentGridEntity_.Movement);
             currentTransform_.Position = currentGridEntity_.Position * Grid.TileSize + Grid.Position;
         }
 
         private void UpdateQueue()
         {
-            currentGridEntity_.Move = false;
+            currentGridEntity_.CanMove = false;
             entitiesQueue_.Enqueue(currentEntity_, 1 / currentGridEntity_.Speed);
 
             Entity nextEntity = entitiesQueue_.First;
@@ -105,6 +108,7 @@ namespace RunToTheStairs.Systems
                 }
             }
 
+            currentGridEntity_.Moving = false;
             currentEntity_ = null;
         }
 
@@ -121,18 +125,5 @@ namespace RunToTheStairs.Systems
 
             entitiesQueue_.Remove(entity);
         }
-
-        private static Vector2 DirectionToVector(Direction direction) => direction switch
-        {
-            Direction.Up => new Vector2(0, -1),
-            Direction.Left => new Vector2(-1, 0),
-            Direction.Down => new Vector2(0, 1),
-            Direction.Right => new Vector2(1, 0),
-            Direction.UpLeft => new Vector2(-1, -1),
-            Direction.UpRight => new Vector2(1, -1),
-            Direction.DownLeft => new Vector2(-1, 1),
-            Direction.DownRight => new Vector2(1, 1),
-            _ => new Vector2(0, 0),
-        };
     }
 }

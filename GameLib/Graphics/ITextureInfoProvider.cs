@@ -1,4 +1,6 @@
-﻿using System.Numerics;
+﻿using GameLib.Components;
+
+using System.Numerics;
 
 
 namespace GameLib.Graphics

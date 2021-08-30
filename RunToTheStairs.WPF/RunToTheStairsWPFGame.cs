@@ -1,4 +1,5 @@
 ﻿using GameLib;
+using GameLib.Systems;
 
 using RunToTheStairs.Systems;
 using RunToTheStairs.WPF.Input;
@@ -27,6 +28,7 @@ namespace RunToTheStairs.WPF
         private float deltaTime_;
         private bool shouldRender_;
         private DebugGridSystem debugGridSystem_;
+        private DebugDiagonalsSystem debugDiagonalsSystem_;
         private Direction playerMoveDirection_;
         private bool playerMove_;
 
@@ -53,6 +55,7 @@ namespace RunToTheStairs.WPF
             game_.Initialize();
 
             debugGridSystem_ = new DebugGridSystem(game_.Camera, game_.Grid);
+            debugDiagonalsSystem_ = new DebugDiagonalsSystem(game_.Camera);
 
             var gameLoopThread = new Thread(GameLoop)
             {
@@ -114,15 +117,8 @@ namespace RunToTheStairs.WPF
         private void InitializeGameButtons()
         {
             #region Debug buttons
-            var gridButton = new GameButton();
-            gridButton.OnPress += (sender, e) =>
-            {
-                if (gridButton.Active)
-                    game_.AddRenderSystem(debugGridSystem_);
-                else
-                    game_.RemoveRenderSystem<DebugGridSystem>();
-            };
-            gameButtons_.Add(Key.F1, gridButton);
+            CreateDebugSystemButton(Key.F1, debugGridSystem_);
+            CreateDebugSystemButton(Key.F2, debugDiagonalsSystem_);
             #endregion
             #region Player control buttons
             CreatePlayerControlButton(Key.NumPad1, Direction.DownLeft);
@@ -134,6 +130,20 @@ namespace RunToTheStairs.WPF
             CreatePlayerControlButton(Key.NumPad8, Direction.Up);
             CreatePlayerControlButton(Key.NumPad9, Direction.UpRight);
             #endregion
+        }
+
+        private void CreateDebugSystemButton<TSystem>(Key key, TSystem system)
+            where TSystem : RenderSystem
+        {
+            var button = new GameButton();
+            button.OnPress += (sender, e) =>
+            {
+                if (button.Active)
+                    game_.AddRenderSystem(system);
+                else
+                    game_.RemoveRenderSystem<TSystem>();
+            };
+            gameButtons_.Add(key, button);
         }
 
         private void CreatePlayerControlButton(Key key, Direction direction)

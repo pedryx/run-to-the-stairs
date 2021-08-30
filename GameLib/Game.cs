@@ -52,10 +52,12 @@ namespace GameLib
 
         public Game(ITextureInfoProvider textureInfoProvider, IMathProvider mathProvider)
         {
-            Camera = new Camera(this);
+            Camera = new Camera();
             EntityManager = new EntityManager(this);
 
             TextureInfoProvider = textureInfoProvider;
+
+            GlobalSettings.TextureInfoProvider = textureInfoProvider;
             GlobalSettings.MathProvider = mathProvider;
         }
 

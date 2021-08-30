@@ -21,7 +21,7 @@ namespace RunToTheStairs.Systems
                 Direction.UpRight => 0,
                 Direction.DownLeft => 2,
                 Direction.DownRight => 2,
-                _ => 2,
+                _ => animation.Y,
             };
         }
     }

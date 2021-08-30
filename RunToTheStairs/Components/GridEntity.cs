@@ -23,10 +23,13 @@ namespace RunToTheStairs.Components
         public Direction Movement { get; set; }
 
         /// <summary>
-        /// Determine if entity will move during this iteration.
+        /// Determine if entity movement is valid.
         /// </summary>
         [XmlIgnore]
-        public bool Move { get; set; }
+        public bool CanMove { get; set; }
+
+        [XmlIgnore]
+        public bool Moving { get; set; }
 
         /// <summary>
         /// Number of tiles per second.
@@ -44,5 +47,8 @@ namespace RunToTheStairs.Components
         /// </summary>
         [XmlIgnore]
         public float Ellapsed { get; set; }
+
+        public Vector2 GetNextPosition()
+            => Position + Grid.DirectionToVector(Movement);
     }
 }

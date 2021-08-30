@@ -1,4 +1,8 @@
-﻿using System;
+﻿using GameLib.Components;
+
+using System;
+using System.Linq;
+using System.Numerics;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -93,6 +97,31 @@ namespace GameLib
             return entity;
         }
 
+        public Vector2 GetVisualSize()
+        {
+            if (!Contains<Apperance>())
+                return Vector2.Zero;
+
+            if (Contains<Animation>())
+            {
+                return Get<Animation>().TileSize;
+            }
+            else
+            {
+                Apperance apperance = Get<Apperance>();
+
+                if (apperance.Sprites.First().Clip.HasValue)
+                {
+                    return apperance.Sprites.First().Clip.Value.Size;
+                }
+                else
+                {
+                    return GlobalSettings.TextureInfoProvider
+                        .GetSize(apperance.Sprites.First().Name);
+                }
+            }
+        }
+
         private void Components_OnAdd(object sender,
             KeyValuePairEventArgs<Type, IComponent> e)
         {
@@ -105,6 +134,7 @@ namespace GameLib
             OnRemove?.Invoke(this, new ComponentEventArgs(e.Value, this));
         }
 
+        #region XML
         public XmlSchema GetSchema()
             => null;
 
@@ -121,6 +151,7 @@ namespace GameLib
                 if (!TypeFinder.ComponentTypes.ContainsKey(componentName))
                 {
                     Logger.Write($"Could not find component with name {reader.Name}!");
+                    reader.Read();
                     continue;
                 }
 
@@ -177,6 +208,6 @@ namespace GameLib
                     $"attribute {reader.Name} cannot be parsed!");
             }
         }
-
+        #endregion
     }
 }

@@ -26,6 +26,9 @@ namespace GameLib
 
             foreach (var property in type.GetProperties())
             {
+                if (property.GetMethod == null || property.SetMethod == null)
+                    continue;
+
                 object propertyValue = property.GetValue(obj);
                 object cloneValue = Clone(propertyValue);
                 property.SetValue(clone, cloneValue);

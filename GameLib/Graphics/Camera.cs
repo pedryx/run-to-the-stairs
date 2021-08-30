@@ -1,25 +1,18 @@
 ﻿using GameLib.Components;
 
-using System.Linq;
 using System.Numerics;
+
 
 namespace GameLib.Graphics
 {
     public class Camera
     {
-        private readonly Game game_;
-
         private Transform targetTransform_;
         private Vector2 centerPos_;
 
         public Transform GameTransform { get; set; } = new Transform();
 
         public Transform UITransform { get; set; } = new Transform();
-
-        public Camera(Game game)
-        {
-            game_ = game;
-        }
 
         /// <summary>
         /// Set follow target for camera. Target has to have Transform component.
@@ -38,20 +31,7 @@ namespace GameLib.Graphics
             }
 
             targetTransform_ = entity.Get<Transform>();
-            centerPos_ = GlobalSettings.Resolution / 2;
-
-            if (entity.Contains<Animation>())
-            {
-                Animation animation = entity.Get<Animation>();
-
-                centerPos_ -= animation.TileSize / 2;
-            }
-            else if (entity.Contains<Apperance>())
-            {
-                Apperance apperance = entity.Get<Apperance>();
-
-                centerPos_ -= game_.TextureInfoProvider.GetSize(apperance.Sprites.First().Name);
-            }
+            centerPos_ = GlobalSettings.Resolution / 2 - entity.GetVisualSize() / 2;
         }
 
         public void Update()

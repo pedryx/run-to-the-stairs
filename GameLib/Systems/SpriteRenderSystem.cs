@@ -25,7 +25,7 @@ namespace GameLib.Systems
                 IMatrix cameraTransform = GetCameraTransform();
 
                 IMatrix word = entityTransform.Concat(spriteTransform);
-                IMatrix view = word.Concat(cameraTransform);
+                IMatrix view = cameraTransform.Concat(word);
 
                 renderer.Render(sprite.Name, view, sprite.Clip);
             }
