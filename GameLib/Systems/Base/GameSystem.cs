@@ -41,6 +41,7 @@ namespace GameLib
 
                 UpdateItem(deltaTime, component);
             }
+            PostUpdate(deltaTime);
         }
 
         /// <summary>
@@ -86,6 +87,7 @@ namespace GameLib
 
                 UpdateItem(deltaTime, component1, component2);
             }
+            PostUpdate(deltaTime);
         }
 
         /// <summary>
@@ -132,6 +134,7 @@ namespace GameLib
 
                 UpdateItem(deltaTime, component1, component2, component3);
             }
+            PostUpdate(deltaTime);
         }
 
         /// <summary>

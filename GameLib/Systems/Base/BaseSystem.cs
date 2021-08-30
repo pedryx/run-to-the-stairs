@@ -36,8 +36,7 @@ namespace GameLib
 
             foreach (var entity in pool)
             {
-                entity.OnAdd += Entity_OnAdd;
-                entity.OnRemove += Entity_OnRemove;
+                TryAddEntity(entity);
             }
         }
 
@@ -52,10 +51,25 @@ namespace GameLib
 
             foreach (var entity in pool)
             {
-                entity.OnAdd -= Entity_OnAdd;
-                entity.OnRemove -= Entity_OnRemove;
+                TryRemoveEntity(entity);
             }
         }
+
+        public void AddEntity(Entity entity)
+        {
+            entities_.Add(entity);
+            ProcessAddedEntity(entity);
+        }
+
+        public void RemoveEntity(Entity entity)
+        {
+            entities_.Remove(entity);
+            ProcessRemovedEntity(entity);
+        }
+
+        protected virtual void ProcessAddedEntity(Entity entity) { }
+        
+        protected virtual void ProcessRemovedEntity(Entity entity) { }
 
         /// <summary>
         /// Determine if entiity contains supported components.
@@ -75,23 +89,29 @@ namespace GameLib
             return contains;
         }
 
-        private void Pool_OnAdd(object sender, EntityEventArgs e)
+        private void TryAddEntity(Entity entity)
         {
-            e.Entity.OnAdd += Entity_OnAdd;
-            e.Entity.OnRemove += Entity_OnRemove;
+            entity.OnAdd += Entity_OnAdd;
+            entity.OnRemove += Entity_OnRemove;
 
-            if (HasComponents(e.Entity))
-                entities_.Add(e.Entity);
+            if (HasComponents(entity))
+                AddEntity(entity);
         }
+
+        private void TryRemoveEntity(Entity entity)
+        {
+            entity.OnAdd -= Entity_OnAdd;
+            entity.OnRemove -= Entity_OnRemove;
+
+            if (!HasComponents(entity))
+                RemoveEntity(entity);
+        }
+
+        private void Pool_OnAdd(object sender, EntityEventArgs e)
+            => TryAddEntity(e.Entity);
 
         private void Pool_OnRemove(object sender, EntityEventArgs e)
-        {
-            e.Entity.OnAdd -= Entity_OnAdd;
-            e.Entity.OnRemove -= Entity_OnRemove;
-
-            if (!HasComponents(e.Entity))
-                entities_.Remove(e.Entity);
-        }
+            => TryRemoveEntity(e.Entity);
 
         private void Entity_OnAdd(object sender, ComponentEventArgs e)
         {
@@ -99,7 +119,7 @@ namespace GameLib
                 return;
 
             if (!entities_.Contains(e.Entity) && HasComponents(e.Entity))
-                entities_.Add(e.Entity);
+                AddEntity(e.Entity);
         }
 
         private void Entity_OnRemove(object sender, ComponentEventArgs e)
@@ -108,7 +128,7 @@ namespace GameLib
                 return;
 
             if (entities_.Contains(e.Entity))
-                entities_.Remove(e.Entity);
+                RemoveEntity(e.Entity);
         }
     }
 }

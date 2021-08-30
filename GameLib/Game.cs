@@ -99,6 +99,7 @@ namespace GameLib
             renderSystems_.OnAdd += RenderSystems_OnAdd;
             renderSystems_.OnRemove += RenderSystems_OnRemove;
 
+            Pool.Update();
             gameSystems_.Update();
             renderSystems_.Update();
 
