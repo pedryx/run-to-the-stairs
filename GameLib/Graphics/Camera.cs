@@ -7,9 +7,10 @@ namespace GameLib.Graphics
 {
     public class Camera
     {
+        private readonly Game game_;
+
         private Transform targetTransform_;
         private Vector2 centerPos_;
-        private Game game_;
 
         public Transform GameTransform { get; set; } = new Transform();
 

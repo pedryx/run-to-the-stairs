@@ -36,17 +36,11 @@ namespace GameLib.Systems
             renderer.EndRender();
         }
 
-        private IMatrix GetCameraTransform()
+        private IMatrix GetCameraTransform() => Entity.Type switch
         {
-            switch (Entity.Type)
-            {
-                case EntityType.Game:
-                    return Camera.GameTransform.GetMatrix();
-                case EntityType.UI:
-                    return Camera.UITransform.GetMatrix();
-                default:
-                    return Matrix.GetIdentity();
-            }
-        }
+            EntityType.Game => Camera.GameTransform.GetMatrix(),
+            EntityType.UI => Camera.UITransform.GetMatrix(),
+            _ => Matrix.GetIdentity(),
+        };
     }
 }
