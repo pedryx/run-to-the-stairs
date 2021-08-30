@@ -24,6 +24,18 @@ namespace RunToTheStairs
             provider_ = provider;
         }
 
+        public Entity CreateWall(string name, Vector2 position)
+        {
+            Entity entity = game_.EntityManager["wall"].Clone();
+
+            PutInGrid(entity, position);
+
+            entity.Update();
+            game_.Pool.Add(name, entity);
+
+            return entity;
+        }
+
         /// <summary>
         /// Create skeleton.
         /// </summary>
@@ -38,28 +50,9 @@ namespace RunToTheStairs
             var apperance = provider_.GetEntityApperance();
             entity.Add(apperance);
 
-            var animation = entity.Get<Animation>();
-            foreach (var sprite in apperance.Sprites)
-            {
-                Vector2 size = animation.TileSize;
-
-                sprite.Transform.Scale = new Vector2()
-                {
-                    X = grid_.TileSize.X / size.X,
-                    Y = grid_.TileSize.Y / size.Y,
-                };
-            }
-
             var gridEntity = entity.Get<GridEntity>();
-            gridEntity.Position = position;
             gridEntity.Speed = speed;
 
-            var transform = entity.Get<Transform>();
-            transform.Position = grid_.Position + new Vector2()
-            {
-                X = grid_.TileSize.X * gridEntity.Position.X,
-                Y = grid_.TileSize.Y * gridEntity.Position.Y,
-            };
 
             if (player)
                 entity.Add<GridPlayer>();
@@ -67,9 +60,28 @@ namespace RunToTheStairs
                 entity.Add<GridAI>();
 
             entity.Update();
+            PutInGrid(entity, position);
+
+            entity.Update();
             game_.Pool.Add(name, entity);
 
             return entity;
         }
+
+        private void PutInGrid(Entity entity, Vector2 position)
+        {
+            GridEntity gridEntity = entity.Get<GridEntity>();
+            gridEntity.Position = position;
+            
+            Apperance apperance = entity.Get<Apperance>();
+            foreach (var sprite in apperance.Sprites)
+            {
+                sprite.Transform.Scale = grid_.TileSize / entity.GetVisualSize();
+            }
+
+            Transform transform = entity.Get<Transform>();
+            transform.Position = grid_.Position + grid_.TileSize * position;
+        }
+
     }
 }

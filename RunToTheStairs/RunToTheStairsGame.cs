@@ -15,6 +15,7 @@ namespace RunToTheStairs
     {
         private readonly IApperanceProvider apperanceProvider_;
         private readonly GridPlayerSystem gridPlayerSystem_ = new();
+        private readonly GridCollisionsSystem gridCollisionsSystem_ = new();
 
         public Grid Grid { get; private set; }
 
@@ -32,8 +33,6 @@ namespace RunToTheStairs
         protected override void PreInitialize()
         {
             TypeFinder.RegisterAssembly(GetType().Assembly);
-            GlobalSettings.WaitingForInput = true;
-
             Grid = new Grid(new Vector2(10, 10), new Vector2(64), new Vector2(0));
         }
 
@@ -42,6 +41,7 @@ namespace RunToTheStairs
             var generator = new GridGenerator(this, Grid, apperanceProvider_);
 
             var player = generator.SpawnEntities();
+            gridCollisionsSystem_.UpdatePhysics();
 
             Camera.Follow(player);
         }
@@ -51,11 +51,12 @@ namespace RunToTheStairs
 
             return new List<GameSystem>()
             {
+                gridPlayerSystem_,
+                new GridAISystem(),
+                gridCollisionsSystem_,
+                new GridAnimationSystem(),
                 new AnimationSystem(),
                 new GridSystem(Grid),
-                new GridAnimationSystem(),
-                new GridAISystem(),
-                gridPlayerSystem_,
             };
         }
 

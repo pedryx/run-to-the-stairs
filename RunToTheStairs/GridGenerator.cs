@@ -22,22 +22,13 @@ namespace RunToTheStairs
         /// <returns>Player entity.</returns>
         public Entity SpawnEntities()
         {
-            //var skeletonSlow = factory_.CreateGridEntity("skeletonSlow", new Vector2(0, 0), 1);
-            var skeletonFast = factory_.CreateGridEntity
-            (
-                "skeletonFast",
-                new Vector2(0, 1),
-                2,
-                true
-            );
-            var skeletonSlow = factory_.CreateGridEntity
-            (
-                "skeletonSlow",
-                new Vector2(0, 0),
-                1
-            );
+            var player = factory_.CreateGridEntity("player", Vector2.One, 2, true);
+            var enemy = factory_.CreateGridEntity("enemy", Vector2.Zero, 1);
+            var wall = factory_.CreateWall("wall1", new Vector2(5, 0));
 
-            return skeletonFast;
+            // todo: generate maze
+
+            return player;
         }
 
     }
