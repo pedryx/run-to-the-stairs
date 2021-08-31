@@ -24,18 +24,6 @@ namespace RunToTheStairs
             provider_ = provider;
         }
 
-        public Entity CreateWall(string name, Vector2 position)
-        {
-            Entity entity = game_.EntityManager["wall"].Clone();
-
-            PutInGrid(entity, position);
-
-            entity.Update();
-            game_.Pool.Add(name, entity);
-
-            return entity;
-        }
-
         /// <summary>
         /// Create skeleton.
         /// </summary>
@@ -45,7 +33,7 @@ namespace RunToTheStairs
         public Entity CreateGridEntity(string name, Vector2 position,
             float speed, bool player = false)
         {
-            Entity entity = game_.EntityManager["gridEntity"].Clone();
+            Entity entity = game_.EntityManager["character"].Clone();
 
             var apperance = provider_.GetEntityApperance();
             entity.Add(apperance);
@@ -68,10 +56,25 @@ namespace RunToTheStairs
             return entity;
         }
 
+        public Entity CreateSimple(string prefab, string name, Vector2 position)
+        {
+            Entity entity = game_.EntityManager[prefab].Clone();
+
+            PutInGrid(entity, position);
+
+            entity.Update();
+            game_.Pool.Add(name, entity);
+
+            return entity;
+        }
+
         private void PutInGrid(Entity entity, Vector2 position)
         {
-            GridEntity gridEntity = entity.Get<GridEntity>();
-            gridEntity.Position = position;
+            if (entity.Contains<GridEntity>())
+            {
+                GridEntity gridEntity = entity.Get<GridEntity>();
+                gridEntity.Position = position;
+            }
             
             Apperance apperance = entity.Get<Apperance>();
             foreach (var sprite in apperance.Sprites)

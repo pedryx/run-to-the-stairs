@@ -22,6 +22,7 @@ namespace RunToTheStairs.Systems
         protected override void UpdateItem(float deltaTime,
             GridEntity gridEntity, GridPlayer gridPlayer)
         {
+            // todo: more lazy control of player
             if (move_)
             {
                 gridEntity.Movement = direction_;
