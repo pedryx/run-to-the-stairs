@@ -1,4 +1,6 @@
-﻿namespace GameLib.Graphics
+﻿using System.Drawing;
+
+namespace GameLib.Graphics
 {
     /// <summary>
     /// Contains description of sprite.
@@ -19,5 +21,7 @@
         /// Source rectangle of texture.
         /// </summary>
         public Rectangle? Clip { get; set; }
+
+        public Color Color { get; set; } = Color.White;
     }
 }

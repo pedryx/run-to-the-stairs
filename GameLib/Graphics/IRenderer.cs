@@ -1,5 +1,7 @@
 ﻿using GameLib.Math;
 
+using System.Drawing;
+
 
 namespace GameLib.Graphics
 {
@@ -29,7 +31,7 @@ namespace GameLib.Graphics
         /// <param name="name">Name of the texture to render.</param>
         /// <param name="matrix">Transformation matrix for texture.</param>
         /// <param name="clip">Source rectangle of texture.</param>
-        void Render(string name, IMatrix matrix, Rectangle? clip = null);
+        void Render(string name, IMatrix matrix, Color color, Rectangle? clip = null);
 
         IPrimitivesRenderer GetPrimitivesRenderer();
     }

@@ -41,30 +41,37 @@ namespace RunToTheStairs.WPF
 
         public void EndRender() { }
 
-        public void Render(string textureName, IMatrix transform, Rectangle? clip = null)
+        public void Render(string textureName, IMatrix transform, System.Drawing.Color color, Rectangle? clip = null)
         {
             SKBitmap bitmap = textureManager_[textureName];
+            SKPaint paint = new SKPaint()
+            {
+                IsAntialias = true,
+                ColorFilter = SKColorFilter.CreateBlendMode
+                (
+                    color.ToSKColor(),
+                    SKBlendMode.Modulate
+                ),
+            };
 
             canvas_.SetMatrix((SKMatrixWrapper)transform);
             if (clip == null)
             {
-                canvas_.DrawBitmap(bitmap, new SKPoint(0, 0));
+                canvas_.DrawBitmap(bitmap, new SKPoint(0, 0), paint);
             }
             else
             {
                 SKRect source = clip.Value.ToSKRect();
                 SKRect destination = new(0, 0, clip.Value.Width, clip.Value.Height);
 
-                canvas_.DrawBitmap(bitmap, source, destination);
+                canvas_.DrawBitmap(bitmap, source, destination, paint);
             }
         }
 
         public IPrimitivesRenderer GetPrimitivesRenderer() => this;
 
         public void SetColor(System.Drawing.Color color)
-        {
-            DrawColor = new SKColor(color.R, color.G, color.B, color.A);
-        }
+            => DrawColor = color.ToSKColor();
 
         public void DrawLine(Vector2 start, Vector2 end, float stroke, IMatrix transform)
         {
