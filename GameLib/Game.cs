@@ -50,6 +50,8 @@ namespace GameLib
 
         public ITextureInfoProvider TextureInfoProvider { get; private set; }
 
+        public Dictionary<string, IScript> Scripts { get; private set; } = new();
+
         public Game(ITextureInfoProvider textureInfoProvider, IMathProvider mathProvider)
         {
             Camera = new Camera();
