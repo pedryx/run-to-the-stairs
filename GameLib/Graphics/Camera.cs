@@ -10,6 +10,13 @@ namespace GameLib.Graphics
         private Transform targetTransform_;
         private Vector2 centerPos_;
 
+        public Entity Target { get; private set; }
+
+        /// <summary>
+        /// Determine if camera should follow the target.
+        /// </summary>
+        public bool Following { get; set; } = true;
+
         public Transform GameTransform { get; set; } = new Transform();
 
         public Transform UITransform { get; set; } = new Transform();
@@ -24,6 +31,8 @@ namespace GameLib.Graphics
         /// </summary>
         public void Follow(Entity entity)
         {
+            Target = entity;
+
             if (entity == null)
             {
                 targetTransform_ = null;
@@ -36,7 +45,7 @@ namespace GameLib.Graphics
 
         public void Update()
         {
-            if (targetTransform_ != null)
+            if (targetTransform_ != null && Following)
                 GameTransform.Position = centerPos_ - targetTransform_.Position;
         }
     }
