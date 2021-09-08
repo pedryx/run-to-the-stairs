@@ -28,7 +28,7 @@ namespace RunToTheStairs.Systems
         /// Transition between tiles is interpolated and it takes TurnLength / Entities.Count
         /// seconds for each entity.
         /// </summary>
-        public float TurnLength { get; set; } = .5f;
+        public float TurnLength { get; set; } = .2f;
 
         public GridSystem(Grid grid)
             : base(typeof(Transform), typeof(GridEntity))
@@ -47,7 +47,7 @@ namespace RunToTheStairs.Systems
 
             if (currentGridEntity_.CanMove)
             {
-                float delay = TurnLength / Entities.Count;
+                float delay = TurnLength;
                 currentGridEntity_.Ellapsed += deltaTime;
 
                 if (currentGridEntity_.Ellapsed != deltaTime)
