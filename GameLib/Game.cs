@@ -135,6 +135,14 @@ namespace GameLib
         public void RemoveRenderSystem<T>()
             where T : RenderSystem
             => renderSystems_.Remove(typeof(T));
+
+        public bool ContainsGameSystem<T>()
+            where T : GameSystem
+            => gameSystems_.ContainsKey(typeof(T));
+
+        public bool ContainsRenderSystem<T>()
+            where T : RenderSystem
+            => renderSystems_.ContainsKey(typeof(T));
         #endregion
 
         /// <summary>
