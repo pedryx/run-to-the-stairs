@@ -16,6 +16,7 @@ namespace RunToTheStairs
         private readonly IApperanceProvider apperanceProvider_;
         private readonly GridPlayerSystem gridPlayerSystem_ = new();
         private readonly GridCollisionsSystem gridCollisionsSystem_ = new();
+        private readonly int? seed_;
 
         public Grid Grid { get; private set; }
 
@@ -23,26 +24,28 @@ namespace RunToTheStairs
         (
             ITextureInfoProvider textureInfoProvider,
             IMathProvider mathProvider,
-            IApperanceProvider apperanceProvider
+            IApperanceProvider apperanceProvider,
+            int? seed = null
         )
             : base(textureInfoProvider, mathProvider)
         {
             apperanceProvider_ = apperanceProvider;
+            seed_ = seed;
         }
 
         protected override void PreInitialize()
         {
             TypeFinder.RegisterAssembly(GetType().Assembly);
-            Grid = new Grid(new Vector2(10, 10), new Vector2(64), new Vector2(0));
+            Grid = new Grid(new Vector2(90), new Vector2(64), new Vector2(0));
+            //Camera.GameTransform.Scale = new Vector2(.5f); // todo: fix zoom out and came follow
         }
 
         protected override void PostInitialize()
         {
-            var generator = new GridGenerator(this, Grid, apperanceProvider_);
+            var scene = new Scene(this, Grid, apperanceProvider_);
+            var player = scene.Create(seed_);
 
-            var player = generator.SpawnEntities();
             gridCollisionsSystem_.UpdatePhysics();
-
             Camera.Follow(player);
         }
 

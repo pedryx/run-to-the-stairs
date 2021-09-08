@@ -11,6 +11,8 @@ namespace RunToTheStairs.WPF.Input
 
         public EventHandler OnPress;
 
+        public EventHandler OnRelease;
+
         public void Update(bool isDown)
         {
             state_.Update(isDown);
@@ -19,6 +21,10 @@ namespace RunToTheStairs.WPF.Input
             {
                 Active = !Active;
                 OnPress?.Invoke(this, new EventArgs());
+            }
+            else if (state_.Released)
+            {
+                OnRelease?.Invoke(this, new EventArgs());
             }
         }
     }

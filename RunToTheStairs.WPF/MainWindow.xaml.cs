@@ -28,6 +28,8 @@ namespace RunToTheStairs.WPF
         private void GameCanvas_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {
             game_.Render(e.Surface.Canvas);
+
+            Title = $"Run To The Stairs (Seed = {game_.Seed}, FPS = {1 / game_.DeltaTime : 0})";
         }
 
         private void Window_KeyHandle(object sender, KeyEventArgs e)
