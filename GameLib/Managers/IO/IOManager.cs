@@ -78,7 +78,7 @@ namespace GameLib.Managers.IO
         /// <param name="path">Path from which will be items loaded.</param>
         public void LoadAll(string path)
         {
-            Console.WriteLine($"{GetType().Name}: Load all.");
+            Logger.Write($"{GetType().Name}: Load all.");
 
             if (!Directory.Exists(path))
             {
