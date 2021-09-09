@@ -44,7 +44,7 @@ namespace RunToTheStairs.WPF
         public void Render(string textureName, IMatrix transform, System.Drawing.Color color, Rectangle? clip = null)
         {
             SKBitmap bitmap = textureManager_[textureName];
-            SKPaint paint = new SKPaint()
+            var paint = new SKPaint()
             {
                 IsAntialias = true,
                 ColorFilter = SKColorFilter.CreateBlendMode
