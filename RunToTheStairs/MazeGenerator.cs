@@ -16,6 +16,7 @@ namespace RunToTheStairs
         private readonly List<Rectangle> rooms_ = new();
         private readonly Random random_;
         private readonly Grid grid_;
+        private Vector2 stairsTile_;
 
         public IReadOnlySet<Vector2> RoomFloorTiles => roomFloorTiles_;
 
@@ -24,6 +25,8 @@ namespace RunToTheStairs
         public IReadOnlySet<Vector2> RoomWallTiles => roomWallTiles_;
 
         public IReadOnlySet<Vector2> CorridorWallTiles => corridorWallTiles_;
+
+        public Vector2 StairsTile => stairsTile_;
 
         public int MinRoomCount { get; set; }
 
@@ -44,6 +47,7 @@ namespace RunToTheStairs
 
         public void Generate()
         {
+            GenerateStairsRoom();
             GenerateRooms();
             GenerateCorridors();
         }
@@ -59,12 +63,27 @@ namespace RunToTheStairs
             }
         }
 
+        private void GenerateStairsRoom()
+        {
+            var room = new Rectangle()
+            {
+                X = random_.Next((int)(grid_.Size.X * .8f), (int)grid_.Size.X),
+                Y = random_.Next((int)grid_.Size.Y),
+                Width = 3,
+                Height = 3,
+            };
+            rooms_.Add(room);
+            GenerateRoom(room);
+
+            stairsTile_ = room.Position + Vector2.One;
+        }
+
         private void GenerateRooms()
         {
             int roomCount = random_.Next(MinRoomCount, MaxRoomCount);
             for (int i = 0; i < roomCount; i++)
             {
-                Rectangle room = new Rectangle()
+                var room = new Rectangle()
                 {
                     X = random_.Next((int)grid_.Size.X),
                     Y = random_.Next((int)grid_.Size.Y),
@@ -72,13 +91,17 @@ namespace RunToTheStairs
                     Height = random_.Next(MinRoomSize, MaxRoomSize),
                 };
                 rooms_.Add(room);
+                GenerateRoom(room);
+            }
+        }
 
-                for (int x = (int)room.X; x < (int)(room.X + room.Width); x++)
+        private void GenerateRoom(Rectangle room)
+        {
+            for (int x = (int)room.X; x < (int)(room.X + room.Width); x++)
+            {
+                for (int y = (int)room.Y; y < (int)(room.Y + room.Height); y++)
                 {
-                    for (int y = (int)room.Y; y < (int)(room.Y + room.Height); y++)
-                    {
-                        AddRoomTile(x, y);
-                    }
+                    AddRoomTile(x, y);
                 }
             }
         }
@@ -139,9 +162,6 @@ namespace RunToTheStairs
             }
         }
 
-        private void AddCorridorTile(int x, int y)
-            => AddCorridorTile(new Vector2(x, y));
-
         private void AddCorridorTile(Vector2 tile)
         {
             if (!corridorFloorTiles_.Contains(tile) && !roomFloorTiles_.Contains(tile))
@@ -176,7 +196,7 @@ namespace RunToTheStairs
         private Vector2 CreateCorridorXAxis(Vector2 start, Vector2 end, bool half)
         {
             Vector2 current = start;
-            Vector2 add = new Vector2()
+            var add = new Vector2()
             {
                 X = end.X > start.X ? 1 : -1,
                 Y = 0,
@@ -196,7 +216,7 @@ namespace RunToTheStairs
         private Vector2 CreateCorridorYAxis(Vector2 start, Vector2 end, bool half)
         {
             Vector2 current = start;
-            Vector2 add = new Vector2()
+            var add = new Vector2()
             {
                 X = 0,
                 Y = end.Y > start.Y ? 1 : -1,

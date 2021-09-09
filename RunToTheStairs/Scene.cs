@@ -40,14 +40,14 @@ namespace RunToTheStairs
             Vector2 spawn = spawnTiles.ElementAt(random_.Next(spawnTiles.Count()));
 
             var player = factory_.CreateGridEntity("player", spawn, 2, true);
-            var enemy = factory_.CreateGridEntity("enemy", spawn + Vector2.One, 1);
+            _ = factory_.CreateGridEntity("enemy", spawn + Vector2.One, 1);
 
             return player;
         }
 
         private IEnumerable<Vector2> SpawnMaze(int? seed = null)
         {
-            MazeGenerator generator = new MazeGenerator(grid_, seed)
+            var generator = new MazeGenerator(grid_, seed)
             {
                 MinRoomCount = 60,
                 MaxRoomCount = 100,
@@ -73,6 +73,7 @@ namespace RunToTheStairs
             {
                 factory_.CreateSimple("wall", $"corridorWall({tile.X},{tile.Y})", tile);
             }
+            factory_.CreateSimple("stairs", "stairs", generator.StairsTile);
 
             return generator.RoomFloorTiles;
         }
