@@ -15,7 +15,7 @@ namespace RunToTheStairs
     {
         private readonly IApperanceProvider apperanceProvider_;
         private readonly GridPlayerSystem gridPlayerSystem_ = new();
-        private readonly GridCollisionsSystem gridCollisionsSystem_ = new();
+        private readonly GridCollisionsSystem gridCollisionsSystem_;
         private readonly int? seed_;
 
         public Grid Grid { get; private set; }
@@ -31,6 +31,8 @@ namespace RunToTheStairs
         {
             apperanceProvider_ = apperanceProvider;
             seed_ = seed;
+
+            gridCollisionsSystem_ = new GridCollisionsSystem(this);
         }
 
         protected override void PreInitialize()
