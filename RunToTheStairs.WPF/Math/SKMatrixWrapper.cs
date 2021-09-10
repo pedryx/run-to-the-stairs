@@ -2,6 +2,8 @@
 
 using SkiaSharp;
 
+using System.Numerics;
+
 
 namespace RunToTheStairs.WPF.Math
 {
@@ -17,6 +19,9 @@ namespace RunToTheStairs.WPF.Math
         {
             Matrix = matrix;
         }
+
+        public Vector2 MapPoint(Vector2 point)
+            => Matrix.MapPoint(point.ToSKPoint()).ToVector2();
 
         public SKMatrix Matrix { get; private set; }
 

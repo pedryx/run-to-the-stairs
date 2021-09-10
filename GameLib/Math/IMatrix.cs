@@ -1,6 +1,11 @@
-﻿namespace GameLib.Math
+﻿using System.Numerics;
+
+namespace GameLib.Math
 {
-    public interface IMatrix { }
+    public interface IMatrix 
+    {
+        Vector2 MapPoint(Vector2 point);
+    }
 
     public static class MatrixExtension
     {
