@@ -47,7 +47,7 @@ namespace RunToTheStairs
 
         protected override void PostInitialize()
         {
-            var player = scene_.Create(seed_);
+            Entity player = scene_.Create(seed_);
 
             gridCollisionsSystem_.UpdatePhysics();
             Camera.Follow(player);
@@ -58,7 +58,7 @@ namespace RunToTheStairs
             return new List<GameSystem>()
             {
                 gridPlayerSystem_,
-                new GridAISystem(),
+                new GridAISystem(scene_),
                 gridCollisionsSystem_,
                 new GridAnimationSystem(),
                 new AnimationSystem(),

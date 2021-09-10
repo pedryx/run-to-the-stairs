@@ -46,7 +46,9 @@ namespace RunToTheStairs
             Vector2 spawn = spawnTiles.ElementAt(random_.Next(spawnTiles.Count()));
 
             var player = factory_.CreateGridEntity("player", spawn, 2, true);
-            //_ = factory_.CreateGridEntity("enemy", spawn + Vector2.One, 1);
+
+            factory_.CreateGridEntity("enemy1", spawn + Vector2.One, 1, false);
+            factory_.CreateGridEntity("enemy2", spawn - Vector2.One, 1, false);
 
             return player;
         }
@@ -123,10 +125,10 @@ namespace RunToTheStairs
             if (!Graph.ContainsNode(tile))
                 Graph.AddNode(tile);
 
-            CreateEdge(generator, tile, tile + Grid.DirectionToVector(Direction.Up));
-            CreateEdge(generator, tile, tile + Grid.DirectionToVector(Direction.Left));
-            CreateEdge(generator, tile, tile + Grid.DirectionToVector(Direction.Down));
-            CreateEdge(generator, tile, tile + Grid.DirectionToVector(Direction.Right));
+            CreateEdge(generator, tile, tile + Direction.Up.ToVector());
+            CreateEdge(generator, tile, tile + Direction.Left.ToVector());
+            CreateEdge(generator, tile, tile + Direction.Down.ToVector());
+            CreateEdge(generator, tile, tile + Direction.Right.ToVector());
         }
 
         private void CreateEdge(MazeGenerator generator, Vector2 tile, Vector2 neighborTile)

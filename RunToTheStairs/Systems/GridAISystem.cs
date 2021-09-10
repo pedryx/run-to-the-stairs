@@ -12,6 +12,13 @@ namespace RunToTheStairs.Systems
     /// </summary>
     class GridAISystem : GameSystem<GridEntity, GridAI>
     {
+        private readonly Scene scene_;
+
+        public GridAISystem(Scene scene)
+        {
+            scene_ = scene;
+        }
+
         protected override void UpdateItem(float deltaTime,
             GridEntity gridEntity, GridAI gridAI)
         {
@@ -23,9 +30,6 @@ namespace RunToTheStairs.Systems
         }
 
         private Direction GetMove(Vector2 position)
-        {
-            //todo: path-finding
-            return Direction.Right;
-        }
+            => (scene_.Graph.GetNext(position) - position).ToDirection();
     }
 }
