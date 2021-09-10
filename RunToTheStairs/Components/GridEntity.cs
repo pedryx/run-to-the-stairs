@@ -49,6 +49,6 @@ namespace RunToTheStairs.Components
         public float Ellapsed { get; set; }
 
         public Vector2 GetNextPosition()
-            => Position + Grid.DirectionToVector(Movement);
+            => Position + Movement.ToVector();
     }
 }

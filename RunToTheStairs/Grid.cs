@@ -38,18 +38,5 @@ namespace RunToTheStairs
             TileSize = tileSiae;
             Position = position;
         }
-
-        public static Vector2 DirectionToVector(Direction direction) => direction switch
-        {
-            Direction.Up => new Vector2(0, -1),
-            Direction.Left => new Vector2(-1, 0),
-            Direction.Down => new Vector2(0, 1),
-            Direction.Right => new Vector2(1, 0),
-            Direction.UpLeft => new Vector2(-1, -1),
-            Direction.UpRight => new Vector2(1, -1),
-            Direction.DownLeft => new Vector2(-1, 1),
-            Direction.DownRight => new Vector2(1, 1),
-            _ => new Vector2(0, 0),
-        };
     }
 }

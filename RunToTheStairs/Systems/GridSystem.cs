@@ -77,14 +77,14 @@ namespace RunToTheStairs.Systems
         private void UpdateDistance(float delay)
         {
             float progress = currentGridEntity_.Ellapsed / delay;
-            Vector2 movement = Grid.DirectionToVector(currentGridEntity_.Movement);
+            Vector2 movement = currentGridEntity_.Movement.ToVector();
             Vector2 distance = movement * progress * Grid.TileSize;
             currentTransform_.Position = startPos_ + distance;
         }
 
         private void SetPosition()
         {
-            currentGridEntity_.Position += Grid.DirectionToVector(currentGridEntity_.Movement);
+            currentGridEntity_.Position += currentGridEntity_.Movement.ToVector();
             currentTransform_.Position = currentGridEntity_.Position * Grid.TileSize + Grid.Position;
         }
 
