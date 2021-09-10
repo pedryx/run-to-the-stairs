@@ -1,6 +1,7 @@
 ﻿using GameLib.Components;
 
 using System;
+using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using System.Xml;
@@ -112,12 +113,14 @@ namespace GameLib
 
                 if (apperance.Sprites.First().Clip.HasValue)
                 {
-                    return apperance.Sprites.First().Clip.Value.Size;
+                    Size size = apperance.Sprites.First().Clip.Value.Size;
+                    return new Vector2(size.Width, size.Height);
                 }
                 else
                 {
                     return GlobalSettings.TextureInfoProvider
-                        .GetSize(apperance.Sprites.First().Name);
+                        .GetSize(apperance.Sprites.First().Name) *
+                        apperance.Sprites.First().Transform.Scale;
                 }
             }
         }

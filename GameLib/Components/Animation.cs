@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Drawing;
+using System.Numerics;
 using System.Xml.Serialization;
 
 
@@ -72,10 +73,10 @@ namespace GameLib.Components
 
         public Rectangle GetClip() => new()
         {
-            X = X * TileSize.X,
-            Y = Y * TileSize.Y,
-            Width = TileSize.X,
-            Height = TileSize.Y,
+            X = (int)(X * TileSize.X),
+            Y = (int)(Y * TileSize.Y),
+            Width = (int)TileSize.X,
+            Height = (int)TileSize.Y,
         };
 
     }

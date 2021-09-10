@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Numerics;
 
 
@@ -75,7 +76,7 @@ namespace RunToTheStairs
             rooms_.Add(room);
             GenerateRoom(room);
 
-            stairsTile_ = room.Position + Vector2.One;
+            stairsTile_ = room.Location.ToVector() + Vector2.One;
         }
 
         private void GenerateRooms()

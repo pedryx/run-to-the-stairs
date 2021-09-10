@@ -1,6 +1,7 @@
-﻿using GameLib;
+﻿using SkiaSharp;
 
-using SkiaSharp;
+using System.Drawing;
+using System.Numerics;
 
 
 namespace RunToTheStairs.WPF
@@ -18,9 +19,21 @@ namespace RunToTheStairs.WPF
         };
 
         /// <summary>
-        /// Convert <see cref="System.Drawing.Color"/> to <see cref="SKColor"/>.
+        /// Convert <see cref="Color"/> to <see cref="SKColor"/>.
         /// </summary>
-        public static SKColor ToSKColor(this System.Drawing.Color color) 
+        public static SKColor ToSKColor(this Color color) 
             => new(color.R, color.G, color.B, color.A);
+
+        /// <summary>
+        /// Convert Vector2 to SKPoin.
+        /// </summary>
+        public static SKPoint ToSKPoint(this Vector2 vector)
+            => new(vector.X, vector.Y);
+
+        /// <summary>
+        /// Convert SKPoint to Vector2.
+        /// </summary>
+        public static Vector2 ToVector2(this SKPoint point)
+            => new(point.X, point.Y);
     }
 }

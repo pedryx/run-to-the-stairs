@@ -6,6 +6,7 @@ using RunToTheStairs.WPF.Math;
 
 using SkiaSharp;
 
+using System.Drawing;
 using System.Numerics;
 
 
@@ -41,7 +42,8 @@ namespace RunToTheStairs.WPF
 
         public void EndRender() { }
 
-        public void Render(string textureName, IMatrix transform, System.Drawing.Color color, Rectangle? clip = null)
+        public void Render(string textureName, IMatrix transform, Color color,
+            Rectangle? clip = null)
         {
             SKBitmap bitmap = textureManager_[textureName];
             var paint = new SKPaint()
