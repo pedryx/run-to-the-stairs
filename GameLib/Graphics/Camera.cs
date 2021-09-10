@@ -46,7 +46,7 @@ namespace GameLib.Graphics
         public void Update()
         {
             if (targetTransform_ != null && Following)
-                GameTransform.Position = centerPos_ - targetTransform_.Position;
+                GameTransform.Position = (centerPos_ - targetTransform_.Position * GameTransform.Scale);
         }
     }
 }
