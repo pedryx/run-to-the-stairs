@@ -113,5 +113,21 @@ namespace GameLib.Algorithms
 
             return path;
         }
+
+        /// <summary>
+        /// Get next tile on the path from current node to the <see cref="Goal"/>.
+        /// </summary>
+        /// <param name="obj">Object which represents current node.</param>
+        /// <returns>
+        /// Object which represents next node of the path from current node
+        /// to the <see cref="Goal"/>.
+        /// </returns>
+        public T GetNext(T obj)
+        {
+            if (cameFrom_ == null)
+                throw new Exception($"You must call {nameof(Dijkstra)} first!");
+
+            return cameFrom_[nodes_[obj]].Object;
+        }
     }
 }
