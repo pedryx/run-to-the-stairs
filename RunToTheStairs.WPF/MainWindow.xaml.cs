@@ -29,7 +29,11 @@ namespace RunToTheStairs.WPF
         {
             game_.Render(e.Surface.Canvas);
 
-            Title = $"Run To The Stairs (Seed = {game_.Seed}, FPS = {1 / game_.DeltaTime : 0})";
+            Title = $"Run To The Stairs (" +
+                $"Seed = {game_.Seed}, " +
+                $"FPS = {1 / game_.DeltaTime : 0}, " +
+                $"Position = {game_.GetPlayerPosition()}" +
+                $")";
         }
 
         private void Window_KeyHandle(object sender, KeyEventArgs e)

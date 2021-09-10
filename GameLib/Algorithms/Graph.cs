@@ -12,14 +12,14 @@ namespace GameLib.Algorithms
     /// <typeparam name="T">Type of object used as nodes.</typeparam>
     public class Graph<T>
     {
-        private Dictionary<T, Node<T>> nodes_ = new();
+        private readonly Dictionary<T, Node<T>> nodes_ = new();
         private Dictionary<Node<T>, Node<T>> cameFrom_;
 
         /// <summary>
         /// After setting new goal you must recalculate dijkstra map by calling
         /// <see cref="Dijkstra"/>. Goal must be part of the graph.
         /// </summary>
-        public Node<T> Goal { get; set; }
+        public T Goal { get; set; }
 
         /// <summary>
         /// Add node to the graph.
@@ -27,9 +27,34 @@ namespace GameLib.Algorithms
         /// <param name="obj">Object which represent node.</param>
         public void AddNode(T obj)
         {
-            Node<T> node = new Node<T>();
-            node.Object = obj;
+            var node = new Node<T>()
+            {
+                Object = obj,
+            };
             nodes_.Add(obj, node);
+        }
+
+        /// <summary>
+        /// Determine if graph contain node.
+        /// </summary>
+        /// <param name="obj">Ibject which represent node.</param>
+        /// <returns>True if graph contain node, otherwise false.</returns>
+        public bool ContainsNode(T obj)
+            => nodes_.ContainsKey(obj);
+
+        /// <summary>
+        /// Add edge from node represented by obj1 to node represented by obj2 with specific
+        /// value.
+        /// </summary>
+        /// <param name="obj1">Object representation of first node.</param>
+        /// <param name="obj2">Object representation of second node.</param>
+        /// <param name="value">Edge value.</param>
+        public void AddEdge(T obj1, T obj2, float value)
+        {
+            Node<T> node1 = nodes_[obj1];
+            Node<T> node2 = nodes_[obj2];
+
+            node1.Edges.Add(new Edge<T>(node2, value));
         }
 
         /// <summary>
@@ -39,16 +64,17 @@ namespace GameLib.Algorithms
         {
             if (Goal == null)
                 throw new NullReferenceException($"{nameof(Goal)} cannot be null!");
-            if (!nodes_.ContainsValue(Goal))
+            if (!nodes_.ContainsKey(Goal))
                 throw new Exception($"{nameof(Goal)} must be part of the graph!");
+            var goal = nodes_[Goal];
 
             var frontier = new SimplePriorityQueue<Node<T>>();
             var cost = new Dictionary<Node<T>, float>();
             cameFrom_ = new Dictionary<Node<T>, Node<T>>();
 
-            frontier.Enqueue(Goal, 0);
-            cost[Goal] = 0;
-            cameFrom_[Goal] = null;
+            frontier.Enqueue(goal, 0);
+            cost[goal] = 0;
+            cameFrom_[goal] = null;
 
             while (frontier.Count != 0)
             {

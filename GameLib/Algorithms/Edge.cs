@@ -3,7 +3,7 @@
     /// <summary>
     /// Represent an edge of a directed graph.
     /// </summary>
-    public class Edge<T>
+    class Edge<T>
     {
         /// <summary>
         /// Node at the end of the edge.

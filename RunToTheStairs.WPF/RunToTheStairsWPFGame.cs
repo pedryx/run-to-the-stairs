@@ -1,6 +1,7 @@
 ﻿using GameLib;
 using GameLib.Systems;
 
+using RunToTheStairs.Components;
 using RunToTheStairs.Systems;
 using RunToTheStairs.WPF.Input;
 using RunToTheStairs.WPF.Math;
@@ -31,6 +32,7 @@ namespace RunToTheStairs.WPF
         private DebugDiagonalsSystem debugDiagonalsSystem_;
         private DebugCameraSystem debugCameraSystem_;
 
+        private Entity player_;
         private bool shouldRender_;
         private Direction playerMoveDirection_;
         private bool playerMove_;
@@ -54,7 +56,7 @@ namespace RunToTheStairs.WPF
                 X = (float)canvas_.RenderSize.Width,
                 Y = (float)canvas_.RenderSize.Height,
             };
-            Seed = random_.Next();
+            Seed = 0; // todo: set seed to random_.Next()
 
             game_ = new RunToTheStairsGame(
                 textureManager_,
@@ -68,6 +70,8 @@ namespace RunToTheStairs.WPF
             debugGridSystem_ = new DebugGridSystem(game_.Camera, game_.Grid);
             debugDiagonalsSystem_ = new DebugDiagonalsSystem(game_.Camera);
             debugCameraSystem_ = new DebugCameraSystem(game_.Camera);
+
+            player_ = game_.Pool["player"];
 
             var gameLoopThread = new Thread(GameLoop)
             {
@@ -104,6 +108,9 @@ namespace RunToTheStairs.WPF
                 gameButtons_[key].Update(isDown);
             }
         }
+
+        public Vector2? GetPlayerPosition()
+            => player_?.Get<GridEntity>().Position;
 
         private void GameLoop()
         {
