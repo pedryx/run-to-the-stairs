@@ -43,9 +43,14 @@ namespace RunToTheStairs
 
 
             if (player)
+            {
                 entity.Add<GridPlayer>();
+                entity.Add<GridPathHighlighter>();
+            }
             else
+            {
                 entity.Add<GridAI>();
+            }
 
             entity.Update();
             PutInGrid(entity, position);

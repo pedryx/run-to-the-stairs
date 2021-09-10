@@ -18,6 +18,8 @@ namespace RunToTheStairs
         private readonly GridCollisionsSystem gridCollisionsSystem_;
         private readonly int? seed_;
 
+        private Scene scene_;
+
         public Grid Grid { get; private set; }
 
         public RunToTheStairsGame
@@ -39,13 +41,13 @@ namespace RunToTheStairs
         {
             TypeFinder.RegisterAssembly(GetType().Assembly);
             Grid = new Grid(new Vector2(90), new Vector2(64), new Vector2(0));
+            scene_ = new Scene(this, Grid, apperanceProvider_);
             //Camera.GameTransform.Scale = new Vector2(.5f); // todo: fix zoom out and came follow
         }
 
         protected override void PostInitialize()
         {
-            var scene = new Scene(this, Grid, apperanceProvider_);
-            var player = scene.Create(seed_);
+            var player = scene_.Create(seed_);
 
             gridCollisionsSystem_.UpdatePhysics();
             Camera.Follow(player);
@@ -53,7 +55,6 @@ namespace RunToTheStairs
 
         protected override IEnumerable<GameSystem> InitializeGameSystems()
         {
-
             return new List<GameSystem>()
             {
                 gridPlayerSystem_,
@@ -62,6 +63,7 @@ namespace RunToTheStairs
                 new GridAnimationSystem(),
                 new AnimationSystem(),
                 new GridSystem(Grid),
+                new PathHighlightSystem(scene_),
             };
         }
 

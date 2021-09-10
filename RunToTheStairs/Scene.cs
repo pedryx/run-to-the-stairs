@@ -1,4 +1,5 @@
 ﻿using GameLib;
+using GameLib.Algorithms;
 
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,13 @@ namespace RunToTheStairs
     {
         private readonly EntityFactory factory_;
         private readonly Grid grid_;
+        private readonly Dictionary<Vector2, Entity> floorTiles_ = new();
 
         private Random random_;
+
+        public IReadOnlyDictionary<Vector2, Entity> FloorTiles => floorTiles_;
+
+        public Graph<Vector2> Graph { get; private set; }
 
         public Scene(Game game, Grid grid, IApperanceProvider provider)
         {
@@ -40,7 +46,7 @@ namespace RunToTheStairs
             Vector2 spawn = spawnTiles.ElementAt(random_.Next(spawnTiles.Count()));
 
             var player = factory_.CreateGridEntity("player", spawn, 2, true);
-            _ = factory_.CreateGridEntity("enemy", spawn + Vector2.One, 1);
+            //_ = factory_.CreateGridEntity("enemy", spawn + Vector2.One, 1);
 
             return player;
         }
@@ -55,14 +61,31 @@ namespace RunToTheStairs
                 MaxRoomSize = 10,
             };
             generator.Generate();
+            SpawnMazeTiles(generator);
+            CreateGraph(generator);
 
+            return FloorTiles.Keys;
+        }
+
+        private void SpawnMazeTiles(MazeGenerator generator)
+        {
             foreach (var tile in generator.RoomFloorTiles)
             {
-                factory_.CreateSimple("floor", $"roomFloor({tile.X},{tile.Y})", tile);
+                floorTiles_[tile] = factory_.CreateSimple
+                (
+                    "floor",
+                    $"roomFloor({tile.X},{tile.Y})",
+                    tile
+                );
             }
             foreach (var tile in generator.CorridorFloorTiles)
             {
-                factory_.CreateSimple("floor", $"corridorFloor({tile.X},{tile.Y})", tile);
+                floorTiles_[tile] = factory_.CreateSimple
+                (
+                    "floor",
+                    $"corridorFloor({tile.X},{tile.Y})",
+                    tile
+                );
             }
 
             foreach (var tile in generator.RoomWallTiles)
@@ -74,8 +97,48 @@ namespace RunToTheStairs
                 factory_.CreateSimple("wall", $"corridorWall({tile.X},{tile.Y})", tile);
             }
             factory_.CreateSimple("stairs", "stairs", generator.StairsTile);
+        }
 
-            return generator.RoomFloorTiles;
+        private void CreateGraph(MazeGenerator generator)
+        {
+            Graph = new Graph<Vector2>();
+
+            foreach (var tile in generator.CorridorFloorTiles)
+            {
+                CreateNode(generator, tile);
+            }
+            foreach (var tile in generator.RoomFloorTiles)
+            {
+                CreateNode(generator, tile);
+            }
+
+            if (!Graph.ContainsNode(generator.StairsTile))
+                Graph.AddNode(generator.StairsTile);
+            Graph.Goal = generator.StairsTile;
+            Graph.Dijkstra();
+        }
+
+        private void CreateNode(MazeGenerator generator, Vector2 tile)
+        {
+            if (!Graph.ContainsNode(tile))
+                Graph.AddNode(tile);
+
+            CreateEdge(generator, tile, tile + Grid.DirectionToVector(Direction.Up));
+            CreateEdge(generator, tile, tile + Grid.DirectionToVector(Direction.Left));
+            CreateEdge(generator, tile, tile + Grid.DirectionToVector(Direction.Down));
+            CreateEdge(generator, tile, tile + Grid.DirectionToVector(Direction.Right));
+        }
+
+        private void CreateEdge(MazeGenerator generator, Vector2 tile, Vector2 neighborTile)
+        {
+            if (generator.CorridorFloorTiles.Contains(neighborTile) ||
+                generator.RoomFloorTiles.Contains(neighborTile))
+            {
+                if (!Graph.ContainsNode(neighborTile))
+                    Graph.AddNode(neighborTile);
+
+                Graph.AddEdge(tile, neighborTile, 1);
+            }
         }
 
     }
