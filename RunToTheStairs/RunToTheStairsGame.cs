@@ -42,7 +42,7 @@ namespace RunToTheStairs
             TypeFinder.RegisterAssembly(GetType().Assembly);
             Grid = new Grid(new Vector2(90), new Vector2(64), new Vector2(0));
             scene_ = new Scene(this, Grid, apperanceProvider_);
-            //Camera.GameTransform.Scale = new Vector2(.5f); // todo: fix zoom out and came follow
+            Camera.GameTransform.Scale = new Vector2(.7f);
         }
 
         protected override void PostInitialize()
